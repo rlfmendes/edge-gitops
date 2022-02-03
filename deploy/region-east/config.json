@@ -1,6 +1,5 @@
 {
-    "zone": "eastus",
-    "region": "dev",
-    "domain" : "ngsa.loblaws.cseretail.com",
-    "environment" : "dev"
+  "region": "east",
+  "zone": "east",
+  "environment": "dev"
 }
