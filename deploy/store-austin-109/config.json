@@ -1,0 +1,7 @@
+{
+    "region": "centralus",
+    "zone": "austin",
+    "store": "austin-109",
+    "domain" : "akdc.cseretail.com",
+    "environment" : "dev"
+}
