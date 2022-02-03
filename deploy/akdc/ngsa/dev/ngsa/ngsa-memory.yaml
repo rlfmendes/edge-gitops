@@ -32,7 +32,7 @@ spec:
           - --zone
           - centralus
           - --region
-          - dev
+          - akdc
           ports:
             - name: http
               containerPort: 8080
