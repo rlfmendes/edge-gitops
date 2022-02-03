@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-app-retail-app
+  namespace: retail-app
+  labels:
+    app.kubernetes.io/name: retail-app-retail-app
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+       maxSurge: 1
+       maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: retail-app-retail-app
+  template:
+    metadata:
+      labels:
+        app: retail-app-retail-app
+        version: beta-0203-0021
+        deploy: 22-02-03-00-21-14
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/retaildevcrews/retail-edge/retaildemo:v2
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: retail-app-retail-app
+  namespace: retail-app
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: retail-app-retail-app
+    
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: retail-app-retail-app
+  namespace: retail-app
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`retail-app.loblaws.cseretail.com`)
+      kind: Rule
+      services:
+        - name: retail-app-retail-app
+          kind: Service
+          port: 8080
