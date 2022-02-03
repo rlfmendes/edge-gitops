@@ -1,0 +1,8 @@
+{
+  "region": "west",
+  "district": "west-ca-seattle",
+  "store": "west-ca-seattle-105",
+  "zone": "west-ca-seattle",
+  "environment": "dev",
+  "domain": "west-ca-seattle-105.cseretail.com"
+}
