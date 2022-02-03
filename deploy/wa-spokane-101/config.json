@@ -1,0 +1,8 @@
+{
+  "region": "west",
+  "district": "wa-spokane",
+  "store": "wa-spokane-101",
+  "zone": "wa-spokane",
+  "environment": "dev",
+  "domain": "wa-spokane-101.cseretail.com"
+}

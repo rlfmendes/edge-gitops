@@ -1,0 +1,8 @@
+{
+  "region": "east",
+  "district": "nc-charlotte",
+  "store": "nc-charlotte-101",
+  "zone": "nc-charlotte",
+  "environment": "dev",
+  "domain": "nc-charlotte-101.cseretail.com"
+}

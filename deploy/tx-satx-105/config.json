@@ -1,0 +1,8 @@
+{
+  "region": "central",
+  "district": "tx-satx",
+  "store": "tx-satx-105",
+  "zone": "tx-satx",
+  "environment": "dev",
+  "domain": "tx-satx-105.cseretail.com"
+}
