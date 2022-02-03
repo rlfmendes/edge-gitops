@@ -1,7 +1,0 @@
-{
-    "region": "centralus",
-    "zone": "dallas",
-    "store": "dallas-103",
-    "domain" : "dallas-103.cseretail.com",
-    "environment" : "dev"
-}
