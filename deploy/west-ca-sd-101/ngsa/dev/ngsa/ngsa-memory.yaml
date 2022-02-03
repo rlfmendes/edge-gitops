@@ -30,9 +30,9 @@ spec:
           - --in-memory
           - --prometheus
           - --zone
-          - centralus
+          - west-ca-sd
           - --region
-          - dev
+          - west
           ports:
             - name: http
               containerPort: 8080
