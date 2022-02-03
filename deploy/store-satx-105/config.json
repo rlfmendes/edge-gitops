@@ -1,0 +1,7 @@
+{
+    "region": "centralus",
+    "zone": "satx",
+    "store": "satx-105",
+    "domain" : "satx-105.cseretail.com",
+    "environment" : "dev"
+}
