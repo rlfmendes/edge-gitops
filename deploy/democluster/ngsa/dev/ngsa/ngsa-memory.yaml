@@ -19,8 +19,8 @@ spec:
     metadata:
       labels:
         app: ngsa-memory
-        version: beta-0203-0326
-        deploy: 22-02-03-03-26-49
+        version: beta-0203-0337
+        deploy: 22-02-03-03-37-31
     spec:
       containers:
         - name: app
@@ -45,9 +45,10 @@ metadata:
   name: ngsa-memory
   namespace: ngsa
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 8080
+      nodePort: 30080
       targetPort: http
       protocol: TCP
       name: http
