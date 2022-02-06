@@ -30,9 +30,9 @@ spec:
           - --in-memory
           - --prometheus
           - --zone
-          - centralus
+          - east-nc-raleigh
           - --region
-          - dev
+          - east
           ports:
             - name: http
               containerPort: 8080
