@@ -19,8 +19,8 @@ spec:
     metadata:
       labels:
         app: ngsa-memory
-        version: beta-0207-0744
-        deploy: 22-02-07-07-44-26
+        version: beta-0207-0746
+        deploy: 22-02-07-07-46-41
     spec:
       containers:
         - name: app
@@ -30,9 +30,9 @@ spec:
           - --in-memory
           - --prometheus
           - --zone
-          - west-wa-seattle
+          - central
           - --region
-          - west
+          - central
           ports:
             - name: http
               containerPort: 8080
