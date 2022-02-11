@@ -1,0 +1,6 @@
+{
+  "region": "metrics",
+  "district": "metrics-tx-austin",
+  "zone": "metrics-tx-austin",
+  "environment": "dev"
+}

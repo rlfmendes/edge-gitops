@@ -1,0 +1,8 @@
+{
+  "region": "metrics",
+  "district": "metrics-tx-austin",
+  "store": "metrics-tx-austin-103",
+  "zone": "metrics-tx-austin",
+  "environment": "dev",
+  "domain": "metrics-tx-austin-103.cseretail.com"
+}
