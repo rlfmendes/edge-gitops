@@ -1,5 +1,5 @@
 {
-  "environment": "demo",
+  "environment": "dev",
   "region": "central",
   "zone": "central-tx-aus",
   "district": "central-tx-aus"
