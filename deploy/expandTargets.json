@@ -142,7 +142,6 @@
     "east-nc-charlotte",
     "east-nc-durham",
     "east-nc-east",
-    "east-nc-raleigh",
     "east-nc-west"
   ],
   "east-ga-athens": [
@@ -193,13 +192,6 @@
     "east-nc-east-103",
     "east-nc-east-104",
     "east-nc-east-105"
-  ],
-  "east-nc-raleigh": [
-    "east-nc-raleigh-101",
-    "east-nc-raleigh-102",
-    "east-nc-raleigh-103",
-    "east-nc-raleigh-104",
-    "east-nc-raleigh-105"
   ],
   "east-nc-west": [
     "east-nc-west-101",

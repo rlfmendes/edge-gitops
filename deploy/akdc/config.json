@@ -1,6 +1,0 @@
-{
-    "zone": "centralus",
-    "region": "akdc",
-    "domain" : "akdc.cseretail.com",
-    "environment" : "dev"
-}
