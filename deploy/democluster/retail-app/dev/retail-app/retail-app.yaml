@@ -19,8 +19,8 @@ spec:
     metadata:
       labels:
         app: retail-app
-        version: beta-0203-0035
-        deploy: 22-02-03-00-35-13
+        version: beta-2202-17-05
+        deploy: 22-02-17-05-31-22
     spec:
       containers:
         - name: app
