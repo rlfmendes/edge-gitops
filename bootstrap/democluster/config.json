@@ -1,0 +1,6 @@
+{
+    "zone": "centralus",
+    "region": "dev",
+    "domain" : "ngsa.loblaws.cseretail.com",
+    "environment" : "dev"
+}

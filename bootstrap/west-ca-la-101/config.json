@@ -1,0 +1,8 @@
+{
+  "region": "west",
+  "district": "west-ca-la",
+  "store": "west-ca-la-101",
+  "zone": "west-ca-la",
+  "environment": "dev",
+  "domain": "west-ca-la-101.cseretail.com"
+}

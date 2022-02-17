@@ -1,0 +1,8 @@
+{
+  "region": "central",
+  "district": "central-mo-west",
+  "store": "central-mo-west-101",
+  "zone": "central-mo-west",
+  "environment": "dev",
+  "domain": "central-mo-west-101.cseretail.com"
+}

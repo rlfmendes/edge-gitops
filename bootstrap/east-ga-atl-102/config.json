@@ -1,0 +1,8 @@
+{
+  "environment": "dev",
+  "region": "east",
+  "zone": "east-ga-atl",
+  "district": "east-ga-atl",
+  "store": "east-ga-atl-102",
+  "domain": "east-ga-atl-102.cseretail.com"
+}
