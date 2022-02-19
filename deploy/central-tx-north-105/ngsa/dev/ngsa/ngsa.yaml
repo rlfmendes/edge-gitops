@@ -20,7 +20,7 @@ spec:
       labels:
         app: ngsa
         version: beta-2202-19-21
-        deploy: 22-02-19-21-13-41
+        deploy: 22-02-19-21-51-25
     spec:
       containers:
         - name: app
