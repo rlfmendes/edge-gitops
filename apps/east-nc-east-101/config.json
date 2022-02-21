@@ -1,0 +1,8 @@
+{
+  "region": "east",
+  "district": "east-nc-east",
+  "store": "east-nc-east-101",
+  "zone": "east-nc-east",
+  "environment": "dev",
+  "domain": "east-nc-east-101.cseretail.com"
+}
