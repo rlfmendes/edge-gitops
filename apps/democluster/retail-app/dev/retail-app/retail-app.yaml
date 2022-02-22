@@ -20,7 +20,7 @@ spec:
       labels:
         app: retail-app
         version: beta-2202-22-07
-        deploy: 22-02-22-07-00-45
+        deploy: 22-02-22-07-04-20
     spec:
       containers:
         - name: app
