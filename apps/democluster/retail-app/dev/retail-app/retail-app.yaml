@@ -28,8 +28,13 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:

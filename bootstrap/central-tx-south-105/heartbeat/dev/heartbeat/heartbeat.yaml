@@ -32,7 +32,13 @@ spec:
           - -u
           - /heartbeat
 
+          resources:
+            limits:
+              cpu: 100m
+              memory: 64Mi
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
