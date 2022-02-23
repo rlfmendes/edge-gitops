@@ -5,6 +5,7 @@
     "west"
   ],
   "central": [
+    "bartr-central",
     "central-ks-kc",
     "central-ks-wichita",
     "central-mo-columbia",
@@ -136,6 +137,7 @@
     "central-tx-west-105"
   ],
   "east": [
+    "bartr-east",
     "east-ga-athens",
     "east-ga-atl",
     "east-ga-north",
@@ -202,6 +204,7 @@
     "east-nc-west-105"
   ],
   "west": [
+    "bartr-west",
     "west-ca-east",
     "west-ca-la",
     "west-ca-north",
