@@ -1,8 +1,5 @@
 # root commands with no sub-commands
 runCommand
-	path: clone
-
-runCommand
 	path: sync
 
 # hide unused modules
