@@ -20,17 +20,14 @@ sudo chown -R "$USER:$USER" /home/akdc
 chmod 600 /home/akdc/.ssh/akdc.pat
 
 # generate kic completion
-../bin/kic completion bash > /home/akdc/.oh-my-bash/completions/kic
+../../bin/kic completion bash > /home/akdc/.oh-my-bash/completions/kic
 # shellcheck source=/dev/null
 source /home/akdc/.oh-my-bash/completions/kic
 
 sudo chown -R "$USER:$USER" /home/akdc
 
-if [ "$AKDC_DEBUG" = "true" ]
+if [ "$AKDC_DEBUG" != "true" ]
 then
-    # clone the GitOps repo
-    git clone https://"$(cat /home/akdc/.ssh/akdc.pat)@github.com/$AKDC_REPO" /home/akdc/gitops
-else
     # create the tls secret
     # this has to be installed before flux
     if [ -f /home/akdc/.ssh/certs.pem ]

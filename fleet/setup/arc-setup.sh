@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "$(date +'%Y-%m-%d %H:%M:%S')  arc-setup start" >> /home/akdc/status
+
 if [ "$AKDC_DEBUG" != "true" ]
 then
   if [ "$AKDC_ARC_ENABLED" = "true" ]; then
@@ -15,3 +17,5 @@ then
     az connectedk8s connect --name "$AKDC_CLUSTER" --resource-group "$AKDC_RESOURCE_GROUP"
   fi
 fi
+
+echo "$(date +'%Y-%m-%d %H:%M:%S')  arc-setup complete" >> /home/akdc/status
