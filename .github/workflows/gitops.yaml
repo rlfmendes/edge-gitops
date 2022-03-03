@@ -30,5 +30,4 @@ jobs:
         --name ago \
         --rm \
         -v $(pwd):/ago \
-        ghcr.io/bartr/autogitops:beta \
-        -o .
+        ghcr.io/bartr/autogitops:beta
