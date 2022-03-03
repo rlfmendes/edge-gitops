@@ -43,7 +43,7 @@ else
     --url "https://github.com/$AKDC_REPO" \
     --password "$(cat /home/akdc/.ssh/akdc.pat)" \
     --token-auth true \
-    --path "./bootstrap/$AKDC_CLUSTER"
+    --path "./deploy/bootstrap/$AKDC_CLUSTER"
 
     status_code=$?
   done
@@ -58,13 +58,13 @@ else
 
   flux create kustomization bootstrap \
   --source GitRepository/gitops \
-  --path "./bootstrap/$AKDC_CLUSTER" \
+  --path "./deploy/bootstrap/$AKDC_CLUSTER" \
   --prune true \
   --interval 1m
 
   flux create kustomization apps \
   --source GitRepository/gitops \
-  --path "./apps/$AKDC_CLUSTER" \
+  --path "./deploy/apps/$AKDC_CLUSTER" \
   --prune true \
   --interval 1m
 
