@@ -1,3 +1,4 @@
 {
-  "apps": ["badapp", "ngsa", "heartbeat", "retail-app"]
+  "apps": ["badapp", "ngsa", "heartbeat", "retail-app"],
+  "appsDir": "apps"
 }
