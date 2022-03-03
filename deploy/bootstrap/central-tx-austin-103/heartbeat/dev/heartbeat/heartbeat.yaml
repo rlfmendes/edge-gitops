@@ -53,7 +53,7 @@ spec:
       name: http
   selector:
     app: heartbeat
-    
+
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -64,7 +64,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`central-tx-aus-103.cseretail.com`) && PathPrefix(`/heartbeat/`)
+    - match: Host(`central-tx-austin-103.cseretail.com`) && PathPrefix(`/heartbeat/`)
       kind: Rule
       services:
         - name: heartbeat
