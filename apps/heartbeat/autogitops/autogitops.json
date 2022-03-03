@@ -3,6 +3,6 @@
     "namespace": "heartbeat",
     "imageName": "ghcr.io/bartr/tinybench",
     "imageTag": "latest",
-    "targetDir": "bootstrap",
+    "targetDir": ".deploy/bootstrap",
     "targets": [ "all" ]
 }
