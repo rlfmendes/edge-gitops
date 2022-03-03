@@ -53,7 +53,7 @@ spec:
       name: http
   selector:
     app: heartbeat
-
+    
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute

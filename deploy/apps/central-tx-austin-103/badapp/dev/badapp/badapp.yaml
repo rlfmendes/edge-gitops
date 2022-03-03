@@ -65,7 +65,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`central-tx-aus-103.cseretail.com`) && PathPrefix(`/badapp/`)
+    - match: Host(`central-tx-austin-103.cseretail.com`) && PathPrefix(`/badapp/`)
       kind: Rule
       services:
         - name: badapp

@@ -28,7 +28,7 @@ spec:
           - --in-memory
           - --prometheus
           - --zone
-          - central-tx-aus
+          - central-tx-austin
           - --region
           - central
           ports:
@@ -66,7 +66,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`central-tx-aus-103.cseretail.com`)
+    - match: Host(`central-tx-austin-103.cseretail.com`)
       kind: Rule
       services:
         - name: ai-order-accuracy
