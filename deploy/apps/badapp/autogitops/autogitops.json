@@ -1,8 +1,0 @@
-{
-    "name": "badapp",
-    "namespace": "badapp",
-    "imageName": "ghcr.io/bartr/tinybench",
-    "imageTag": "latest",
-    "targetDir": "apps",
-    "targets": [ "central-tx-austin-103" ]
-}

@@ -1,8 +1,0 @@
-{
-    "name": "retail-app",
-    "namespace": "retail-app",
-    "imageName": "ghcr.io/retaildevcrews/retail-edge/retaildemo",
-    "imageTag": "v2",
-    "targetDir": "./apps",
-    "targets": [ "democluster" ]
-}
