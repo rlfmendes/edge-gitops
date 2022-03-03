@@ -31,5 +31,4 @@ jobs:
         --rm \
         -v $(pwd):/ago \
         ghcr.io/bartr/autogitops:beta \
-        -r /retaildevcrews/edge-gitops \
-        -p ${{ secrets.GHCR_PAT }}
+        -0 .

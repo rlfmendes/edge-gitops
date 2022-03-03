@@ -3,6 +3,6 @@
     "imageTag": "latest",
     "name": "ngsa",
     "namespace": "ngsa",
-    "targetDir": "./deploy/apps",
+    "targetDir": "apps",
     "targets": ["democluster"]
 }
