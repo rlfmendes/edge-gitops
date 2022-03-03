@@ -4,5 +4,5 @@
     "name": "ngsa",
     "namespace": "ngsa",
     "targetDir": "./deploy/apps",
-    "targets": ["democluster", "central"]
+    "targets": ["democluster"]
 }
