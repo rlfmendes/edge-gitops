@@ -1,0 +1,9 @@
+{
+	"environment": "dev",
+	"region": "central",
+	"zone": "central-tx-dallas",
+	"district": "central-tx-dallas",
+	"store": "central-tx-dallas-101",
+	"domain": "central-tx-dallas-101.cseretail.com"
+}
+
