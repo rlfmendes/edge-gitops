@@ -1,0 +1,9 @@
+{
+	"environment": "dev",
+	"region": "test",
+	"zone": "test-cluster",
+	"district": "test-cluster",
+	"store": "test-cluster",
+	"domain": "test-cluster.testing.com"
+}
+
