@@ -1,7 +1,11 @@
 {
   "all": [ "central", "east", "west" ],
   "bartr": [ "bartr-central", "bartr-east", "bartr-west" ],
+  "test-tx-atx": [ "test-tx-atx-101", "test-tx-atx-102", "test-tx-atx-103" ],
   "central": [
+    "test-tx-atx-101",
+    "test-tx-atx-102",
+    "test-tx-atx-103",
     "bartr-central",
     "central-ks-kc",
     "central-ks-wichita",
@@ -324,3 +328,4 @@
     "west-wa-west-105"
   ]
 }
+
