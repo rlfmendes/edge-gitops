@@ -2,10 +2,17 @@
 # vm commands and sub-commands
 ###
 
+root
+	name: kic
+	short: Kubernetes in Codespaces CLI
+	long: Kubernetes in Codespaces CLI\n\n  A CLI for automating Kubernetes development tasks
+
 command
-	name: vm
-	short: Kubernetes in Codespaces CLI for VM clusters
-	long: Kubernetes in Codespaces CLI\n\n  A CLI for automating many Kubernetes development tasks on VM clusters
+	name: fleet
+	short: hidden
+	hidden: true
+
+popCommand
 
 runCommand
 	path: vm/sync
