@@ -1,8 +1,8 @@
 {
     "imageName": "ghcr.io/cse-labs/ngsa-app",
     "imageTag": "latest",
-    "name": "ngsa",
-    "namespace": "ngsa",
+    "name": "ai-order-accuracy",
+    "namespace": "ai-order-accuracy",
     "targetDir": "apps",
-    "targets": ["west-co-denver-101"]
+    "targets": [ "west-co-denver-101" ]
 }
