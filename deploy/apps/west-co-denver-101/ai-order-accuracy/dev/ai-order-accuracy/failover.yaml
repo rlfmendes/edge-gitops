@@ -68,7 +68,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`west-co-denver-102.cseretail.com`)
+    - match: Host(`west-co-denver-101.cseretail.com`)
       kind: Rule
       services:
         - name: ai-order-accuracy
