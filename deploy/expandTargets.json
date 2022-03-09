@@ -1,6 +1,7 @@
 {
   "all": [ "central", "east", "west" ],
   "bartr": [ "bartr-central", "bartr-east", "bartr-west" ],
+  "west-co-denver": [ "west-co-denver-101", "west-co-denver-102" ]
   "test-tx-atx": [ "test-tx-atx-101", "test-tx-atx-102", "test-tx-atx-103" ],
   "central": [
     "test-tx-atx-101",
@@ -205,6 +206,7 @@
     "east-nc-west-105"
   ],
   "west": [
+    "west-co-denver",
     "bartr-west",
     "west-ca-east",
     "west-ca-la",
@@ -328,4 +330,3 @@
     "west-wa-west-105"
   ]
 }
-
