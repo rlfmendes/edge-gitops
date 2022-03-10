@@ -28,9 +28,6 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
-          args:
-          - -u
-          - /heartbeat
 
           resources:
             limits:
@@ -53,7 +50,7 @@ spec:
       name: http
   selector:
     app: {{gitops.name}}
-    
+
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
