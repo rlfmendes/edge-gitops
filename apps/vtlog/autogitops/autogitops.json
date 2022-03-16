@@ -1,0 +1,7 @@
+{
+    "name": "vtlog",
+    "namespace": "vtlog",
+    "imageName": "ghcr.io/retaildevcrews/vtlog",
+    "imageTag": "beta",
+    "targets": ["bartr-west"]
+}
