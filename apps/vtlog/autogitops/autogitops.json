@@ -3,6 +3,6 @@
     "namespace": "vtlog",
     "imageName": "ghcr.io/retaildevcrews/vtlog",
     "imageTag": "beta",
-    "targetDir": "apps",
+    "targetDir": "deploy/apps",
     "targets": ["bartr-west"]
 }
