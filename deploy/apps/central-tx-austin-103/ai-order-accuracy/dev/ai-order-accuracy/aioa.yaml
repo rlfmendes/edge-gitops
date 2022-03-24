@@ -26,11 +26,10 @@ spec:
           imagePullPolicy: Always
           args: 
           - --in-memory
-          - --prometheus
           - --zone
-          - west-co-denver
+          - central-tx-austin
           - --region
-          - west
+          - central
           ports:
             - name: http
               containerPort: 8080
@@ -41,17 +40,15 @@ spec:
               memory: 512Mi
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
   name: ai-order-accuracy
   namespace: ai-order-accuracy
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 8080
-      nodePort: 30080
       targetPort: http
       protocol: TCP
       name: http
@@ -68,7 +65,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`west-co-denver-102.cseretail.com`)
+    - match: Host(`central-tx-austin-103.cseretail.com`)
       kind: Rule
       services:
         - name: ai-order-accuracy
