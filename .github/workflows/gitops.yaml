@@ -3,9 +3,6 @@ name: GitOps Deploy
 on:
 
   push:
-    branches:
-      - bartr
-
     paths:
     - '.github/workflows/gitops.yaml'
     - '**/autogitops/**'
