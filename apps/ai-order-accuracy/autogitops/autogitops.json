@@ -3,6 +3,6 @@
     "imageTag": "latest",
     "name": "ai-order-accuracy",
     "namespace": "ai-order-accuracy",
-    "targetDir": "deploy/apps",
+    "targetDir": "apps",
     "targets": [ "central", "bartr" ]
 }

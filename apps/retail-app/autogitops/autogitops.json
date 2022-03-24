@@ -3,6 +3,6 @@
     "namespace": "retail-app",
     "imageName": "ghcr.io/retaildevcrews/retail-edge/retaildemo",
     "imageTag": "v2",
-    "targetDir": "deploy/apps",
+    "targetDir": "apps",
     "targets": [ "democluster" ]
 }
