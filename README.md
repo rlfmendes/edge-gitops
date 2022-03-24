@@ -1,12 +1,28 @@
-# My new repo
+# AutoGitOps Testing Repo
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-> My new repo description ...
+> AutoGitOps Testing
 
 ## Overview
 
-Add project overview ...
+- Create a new branch from the `clean` branch
+- Update deploy/expandTargets.json
+  - add your regions / districts / stores for testing
+    - do not use these prefixes - they are reserved for our demo cluster
+      - corp-monitoring
+      - central-mo-kc
+      - central-tx-austin
+      - east-ga-atlanta
+      - east-nc-raleigh
+      - west-ca-sd
+      - west-wa-redmond
+      - west-wa-seattle
+
+## The easiest way to experiment is by creating a Codespace from the `akdc` repo
+
+- This repo will be cloned to `/workspaces/edge-gitops` in that Codespace
+  - <https://github.com/retaildevcrews/akdc>
 
 ### Engineering Docs
 
@@ -14,7 +30,7 @@ Add project overview ...
 - Team [Engineering Practices](.github/EngineeringPractices.md)
 - CSE Engineering Fundamentals [Playbook](https://github.com/Microsoft/code-with-engineering-playbook)
 
-## How to file issues and get help  
+## How to file issues and get help
 
 This project uses GitHub Issues to track bugs and feature requests. Please search the existing issues before filing new issues to avoid duplicates. For new issues, file your bug or feature request as a new issue.
 

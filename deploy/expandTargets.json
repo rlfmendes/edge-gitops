@@ -1,16 +1,4 @@
-{
-  // add your regions / districts / stores for testing
-
-  // do not use these prefixes - they are reserved for our demo cluster
-  //     corp-monitoring
-  //     central-mo-kc
-  //     central-tx-austin
-  //     east-ga-atlanta
-  //     east-nc-raleigh
-  //     west-ca-sd
-  //     west-wa-redmond
-  //     west-wa-seattle
-
+  {
   "all": [ "central", "east", "west" ],
   "central": [ "central-tx-dfw-101" ],
   "east": [ "east-ga-atl-101" ],
