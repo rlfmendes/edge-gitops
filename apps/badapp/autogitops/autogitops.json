@@ -4,5 +4,5 @@
     "imageName": "ghcr.io/cse-labs/heartbeat",
     "imageTag": "latest",
     "targetDir": "apps",
-    "targets": [ "central-tx-austin-103" ]
+    "targets": [ "west" ]
 }

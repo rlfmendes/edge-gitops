@@ -1,8 +1,0 @@
-{
-    "imageName": "ghcr.io/cse-labs/imdb-app",
-    "imageTag": "latest",
-    "name": "failover-test",
-    "namespace": "failover-test",
-    "targetDir": "apps",
-    "targets": [ "west-co-denver-102" ]
-}
