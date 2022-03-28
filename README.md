@@ -6,7 +6,7 @@
 
 ## Overview
 
-- Create a new branch from the `clean` branch
+- Create a new branch from the main branch
 - Update deploy/expandTargets.json
   - add your regions / districts / stores for testing
     - do not use these prefixes - they are reserved for our demo cluster
