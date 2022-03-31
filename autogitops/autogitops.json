@@ -1,4 +1,4 @@
 {
-  "apps": ["ai-order-accuracy", "badapp", "heartbeat", "jaltest"],
+  "apps": ["jaltest"],
   "appsDir": "apps"
 }
