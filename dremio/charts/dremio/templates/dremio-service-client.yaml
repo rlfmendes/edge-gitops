@@ -1,32 +1,31 @@
-{{ if not .Values.DremioAdmin }}
+{{- if not $.Values.DremioAdmin -}}
 apiVersion: v1
 kind: Service
 metadata:
   name: dremio-client
   labels:
     app: dremio-client
-  {{- if .Values.internalLoadBalancer }}
-  {{- if eq .Values.internalLoadBalancer true }}
-  annotations:
-    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-    cloud.google.com/load-balancer-type: "Internal"
-    service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
-    service.beta.kubernetes.io/openstack-internal-load-balancer: "true"
-  {{- end }}
-  {{- end }}
+    {{- include "dremio.service.labels" $ | nindent 4 }}
+  {{- include "dremio.service.annotations" $ | nindent 2 }}
 spec:
   ports:
-  - port: {{ .Values.coordinator.client.port | default 31010 }}
-    targetPort: 31010
+  - port: {{ $.Values.coordinator.client.port | default 31010 }}
+    targetPort: client
     name: client
-  - port: {{ .Values.coordinator.web.port | default 9047 }}
-    targetPort: 9047
+  - port: {{ $.Values.coordinator.web.port | default 9047 }}
+    targetPort: web
     name: web
+  - port: {{ $.Values.coordinator.flight.port | default 32010 }}
+    targetPort: flight
+    name: flight
   selector:
     app: dremio-coordinator
-  type: {{ .Values.serviceType | default "NodePort" }}
-  {{- if .Values.sessionAffinity }}
-  sessionAffinity: {{ .Values.sessionAffinity }}
+  type: {{ $.Values.service.type }}
+  {{- if and (eq $.Values.service.type "LoadBalancer") $.Values.service.loadBalancerIP }}
+  loadBalancerIP: {{ $.Values.service.loadBalancerIP }}
+  {{- end -}}
+  {{- if $.Values.service.sessionAffinity }}
+  sessionAffinity: {{ $.Values.service.sessionAffinity }}
   {{- end }}
 ---
 apiVersion: v1
@@ -39,4 +38,4 @@ spec:
   clusterIP: None
   selector:
     role: dremio-cluster-pod
-{{ end }}
+{{- end -}}

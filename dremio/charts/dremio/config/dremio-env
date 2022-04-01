@@ -97,6 +97,5 @@
 #
 #DREMIO_JAVA_CLIENT_EXTRA_OPTS=
 
-# Extra Java options - server only (dremio command)
-#
-#DREMIO_JAVA_SERVER_EXTRA_OPTS=
+# Warning: Do not set DREMIO_JAVA_SERVER_EXTRA_OPTS in dremio-env.
+# Please see the values.yaml extraStartParams for setting additional options for Dremio process startup.

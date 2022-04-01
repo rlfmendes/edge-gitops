@@ -1,229 +1,109 @@
-# Dremio + Kubernetes Cluster Setup
+Quick Links: [Dremio](https://dremio.com/) | [Dremio Documentation](https://docs.dremio.com/) | **[Helm Chart Documentation](./docs/)**
 
-# ⚠️ Deprecation Notice ⚠️
+# Installing Dremio on Kubernetes
 
-***This version of the Dremio Helm chart is deprecated.*** We recommend users transition to the new [Dremio v2 Helm Chart](../dremio_v2).
+You can follow these instructions to install Dremio in a Kubernetes cluster provisioned through a cloud provider or running in an on-premises environment. Supported cloud providers are Amazon Elastic Kubernetes Service (EKS), Google Kubernetes Engine (GKE), and Microsoft Azure Kubernetes Service (AKS).
 
-Dremio no longer maintains this Helm chart and will not perform additional improvements and bug fixes. The repository is kept for historical reference.
+If you are upgrading from the previous Helm chart for Dremio, please see the [Migrating Helm Chart Versions](./docs/setup/Migrating-Helm-Chart-Versions.md) documentation.
 
-## Overview
+## Prerequisites
 
-This is a Helm chart to deploy a Dremio cluster in kubernetes. It uses
-a persistent volume for the master node to store the metadata for the
-cluster. The default configuration uses the default persistent storage
-supported by the kubernetes platform. For example,
+* Ensure that you have an existing Kubernetes cluster.
+* Ensure that Helm 3 is set up on a local machine.
+* Ensure that a local kubectl is configured to access your Kubernetes cluster.
+* Ensure that you have cloud storage available (required for 21.0.0+), see [here](./docs/Values-Reference.md#diststoragetype) for more details.
 
-| Kubernetes platform | Persistent store |
-|---------------------|------------------|
-| AWS EKS             | EBS              |
-| Azure AKS           | Azure disk (HDD) |
-| Google GKE          | Persistent Disk  |
-| Local K8S on Docker | Hostpath         |
+## Procedure
 
-If you want to use a different storage class available in your
-kubernetes environment, add the storageClass in values.yaml.
+1. Download [the `dremio-cloud-tools` repository](https://github.com/dremio/dremio-cloud-tools/tree/master/charts/dremio_v2).
+1. In a terminal window, change to the `dremio-cloud-tools/charts/dremio_v2/` directory.
+1. Review the default values in the file `values.yaml`, which configures the Dremio installation. If you want to override any of these values, create a file with the `.yaml` extension in this directory, copy into this file the keys for which you want to set non-default values, and then set the values in the file. Making changes in this file allows you to quickly update to the latest version of the chart by copying the file across Helm chart updates. Refer to "[`values.yaml` Reference](./docs/Values-Reference.md)" for details about the settings.
+1. Review the document "[Important Setup Considerations](./docs/setup/Important-Setup-Considerations.md)" and make any of the listed changes to the values in your `values.local.yaml` file that you think are necessary for your environment.
+1. Install the Helm Chart by running one of these commands from the `charts` directory:
+   * If you are overriding any of the default values that are in the `values.yaml` file, run this command:
 
-An appropriate distributed file store (S3, ADLS, HDFS, etc) should be
-used for paths.dist as this deployment will lose locally persisted
-reflections and uploads. You can update config/dremio.conf. Dremio
-[documentation](https://docs.dremio.com/deployment/distributed-storage.html)
-provides more information on this.
+      ```bash
+      $ helm install <release-name> dremio_v2 -f <file>
+      ```
+      where `<file>` is the name of the file that you are using to override values.
+   * If you are not overriding any of the values in the `values.yaml` file, run this command:
+      ```bash
+      $ helm install <release-name> dremio_v2
+      ```
 
-This assumes you already have kubernetes cluster setup, kubectl
-configured to talk to your kubernetes cluster and helm setup in your
-cluster. Review and update values.yaml to reflect values for your
-environment before installing the helm chart. This is specially
-important for for the memory and cpu values - your kubernetes cluster
-should have sufficient resources to provision the pods with those
-values. If your kubernetes installation does not support serviceType
-LoadBalancer, it is recommended to comment the serviceType value in
-values.yaml file before deploying.
+   If the installation takes longer than a few minutes to complete, you can check the status of the installation by using the following command:
 
-#### Installing the helm chart
+   ```bash
+   $ kubectl get pods
+   ```
 
-Review charts/dremio/values.yaml and adjust the values as per your
-requirements. Note that the values for cpu and memory for the
-coordinator and the executors are set to work with AKS on Azure with
-worker nodes setup with machine types Standard_E16s_v3.
+   If a pod remains in **Pending** state for more than a few minutes, run the following command to view its status to check for issues, such as insufficient resources for scheduling:
 
-Run this from the charts directory
+   ```bash
+   $ kubectl describe pods <pod-name>
+   ```
 
-```bash
-cd charts helm install --wait dremio ```
+   If the events at the bottom of the output mention insufficient CPU or memory, either adjust the values in your `values.local.yaml` and restart the process or add more resources to your Kubernetes cluster.
 
-If it takes longer than a couple of minutes to complete, check the
-status of the pods to see where they are waiting. If they are pending
-scheduling due to limited memory or cpu, either adjust the values in
-values.yaml and restart the process or add more resources to your
-kubernetes cluster.
+   When all of the pods are in the **Ready** state, the installation is complete.
 
-#### Connect to the Dremio UI
+## What to do next
 
-If your kubernetes supports serviceType LoadBalancer, you can get to
-the Dremio UI on the load balancer external IP.  For example, if your
-service output is:
+Now that you've installed the Dremio Helm chart, you can get the HTTP addresses for connecting to Dremio's UI, connecting to Dremio from BI tools via JDBC/ODBC, and for connecting to Dremio from BI tools via Apache Arrow Flight.
 
-```bash
-kubectl get services dremio-client
-NAME            TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                          AGE
-dremio-client   LoadBalancer   10.99.227.180   35.226.31.211     31010:32260/TCP,9047:30620/TCP   2d
-```
+### Getting the HTTP address for connecting to the Dremio UI
 
-You can get to the Dremio UI using the value under column EXTERNAL-IP:
-
-http://35.226.31.211:9047
-
-If your kubernetes does not have support of serviceType LoadBalancer,
-you can access the Dremio UI on the port exposed on the node. For
-example, if the service output is:
-
-```bash
-kubectl get services dremio-client
-NAME            TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                          AGE
-dremio-client   NodePort       10.110.65.97    <none>            31010:32390/TCP,9047:30670/TCP   1h
-```
-
-Where there is no external IP and the Dremio master is running on node
-"localhost", you can get to Dremio UI using:
-
-http://localhost:30670
-
-#### Dremio Client Port
-
-The port 31010 is used for ODBC and JDBC connections. You can look up
-service dremio-client in kubernetes to find the host to use for ODBC
-or JDBC connections. Depending on your kubernetes cluster supporting
-serviceType LoadBalancer, you will use the load balancer external-ip
-or the node on which a coordinator is running.
-
-```bash
-kubectl get services dremio-client
-NAME            TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                          AGE
-dremio-client   LoadBalancer   10.99.227.180   35.226.31.211     31010:32260/TCP,9047:30620/TCP   2d
-```
-
-For example, in the above output, the service is exposed on an
-external-ip. So, you can use 35.226.31.211:31010 in your ODBC or JDBC
-connections.
-
-#### Viewing logs
-
-Logs are written to the container's console. All the logs -
-server.log, server.out, server.gc and access.log - are written into
-the console simultaneously. You can view the logs using kubectl.  ```
-kubectl logs <container-name> ``` You can also tail the logs using the
--f parameter.  ``` kubectl logs -f <container-name> ```
-
-#### Scale by adding additional Coordinators or Executors (optional)
-
-Get the name of the helm release. In the example below, the release
-name is plundering-alpaca:
-
-```bash
-helm list
-NAME             	REVISION	UPDATED                 	STATUS  	CHART       	NAMESPACE
-plundering-alpaca	1       	Wed Jul 18 09:36:14 2018	DEPLOYED	dremio-0.0.5	default
-```
-
-Add additional coordinators:
-
-```bash
-helm upgrade <release name> dremio --set coordinator.count=3
-```
-
-Add additional executors:
-
-```bash
-helm upgrade <release name> dremio --set executor.count=5
-```
-
-You can also scale down the same way.
-
-### Running offline dremio-admin commands
-
-Administration commands restore, cleanup and set-password in
-dremio-admin needs to be run when the Dremio cluster is not
-running. So, before running these commands, you need to shutdown the
-Dremio cluster. Use the helm delete command to delete the helm
-release.  (Kubernetes does not delete the persistent store volumes
-when you delete statefulset pods and when you install the cluster
-again using helm, the existing persistent store will be used and you
-will get your Dremio cluster running again.)
-
-After Dremio cluster is shutdown, start the dremio-admin pod using:
-
-```bash
-helm install --wait dremio --set DremioAdmin=true
-```
-Once the pod is running, you can connect to the pod using:
-
-```bash
-kubectl exec -it dremio-admin -- bash
-```
-Now, you have a bash shell from where you can run the dremio-admin commands.
-
-Once you are done, you can delete the helm release for the
-dremio-admin and start your Dremio cluster.
-
-#### Upgrading Dremio
-
-You should attempt upgrade when no queries are running on the
-cluster. Update the Dremio image tag in your values.yaml file. E.g:
-
-```bash
-image: dremio/dremio-oss:3.0.0
-...
-```
-
-Get the name of the helm release. In the example below, the release
-name is plundering-alpaca.
-
-```bash
-helm list
-NAME             	REVISION	UPDATED                 	STATUS  	CHART       	NAMESPACE
-plundering-alpaca	1       	Wed Jul 18 09:36:14 2018	DEPLOYED	dremio-0.0.5	default
-```
-
-Upgrade the deployment via helm upgrade command:
+Run the following command to use the `service dremio-client` in Kubernetes to find the host for the Dremio UI:
 
 ```
-helm upgrade <release name> .
+$ kubectl get services dremio-client
 ```
 
-Existing pods will be terminated and new pods will be created with the
-new image. You can
+* If the value in the `TYPE` column of the output is `LoadBalancer`, access the Dremio UI through the address in the `EXTERNAL_IP` column and port 9047.
+For example, in the output below, the value under the `EXTERNAL-IP` column is 8.8.8.8. Therefore, you can get to the Dremio UI via port 9047 on that address: http://8.8.8.8:9047
+   ```
+   $ kubectl get services dremio-client
+   NAME            TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                          AGE
+   dremio-client   LoadBalancer   10.99.227.180   8.8.8.8           31010:32260/TCP,9047:30620/TCP   2d
+   ```
 
-monitor the status of the pods by running:
+   If you want to change the expose port on the load balancer, change the value of the setting `coordinator.web.port` in the file `values.local.yaml`.
+* If the value in the TYPE column of the output is `NodePort`, access the Dremio UI through http://localhost:30670.
+
+### Getting the HTTP address for using ODBC or JDBC to connect from BI tools to Dremio
+
+Run the following command to use the `service dremio-client` in Kubernetes to find the host for JDBC/ODBC connections by using the following command:
 ```
-kubectl get pods
+$ kubectl get services dremio-client
+```
+* If the value in the TYPE column of the output is `LoadBalancer`, access Dremio using JDBC/ODBC through the address in the `EXTERNAL_IP` column and port 31010.
+   For example, in the output below, the value under the `EXTERNAL-IP` column is 8.8.8.8. Therefore, you can get to the Dremio UI via port 9047 on that address: http://8.8.8.8:9047
+   ```
+   $ kubectl get services dremio-client
+   NAME            TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                          AGE
+   dremio-client   LoadBalancer   10.99.227.180   8.8.8.8           31010:32260/TCP,9047:30620/TCP   2d
+   ```
+   If you want to change the expose port on the load balancer, change the value of the setting `coordinator.client.port` in the file `values.local.yaml`.
+
+* If the value in the TYPE column of the output is `NodePort`, access Dremio using JDBC/ODBC through http://localhost:32390.
+
+### Getting the HTTP address for using Apache Arrow Flight to connect from BI tools to Dremio
+
+Run the following command to use the `service dremio-client` in Kubernetes to find the host for Apache Arrow Flight connections by using the following command:
+
+```
+$ kubectl get services dremio-client
 ```
 
-Once all the pods are restarted and running, your Dremio cluster is
-upgraded.
+* If the value in the TYPE column of the output is `LoadBalancer`, access Dremio using Flight through the address in the `EXTERNAL_IP` column and port 32010.
 
-#### Customizing Dremio configuration
+   For example, in the output below, the value under the `EXTERNAL-IP` column is 8.8.8.8. Therefore, you can get to the Dremio UI via port 9047 on that address: http://8.8.8.8:9047
 
-Dremio configuration files used by the deployment are in the config
-directory. These files are propagated to all the pods in the
-cluster. Updating the configuration and upgrading the helm release -
-just like doing an upgrade - would refresh all the pods with the new
-configuration. [Dremio
-documentation](https://docs.dremio.com/deployment/README-config.html)
-covers the configuration capabilities in Dremio.
+   ```
+   $ kubectl get services dremio-client
+   NAME            TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                          AGE
+   dremio-client   LoadBalancer   10.99.227.180   8.8.8.8           31010:32260/TCP,9047:30620/TCP   2d
+   ```
 
-If you need to add a core-site.xml, you can add the file to the config
-directory and it will be propagated to all the pods on install or
-upgrade of the deployment.
-
-#### Important Changes
-
-2019-09-19 (v0.1.0): BREAKING CHANGE.
-
-  Dremio versions before 4.0.0 are no longer supported by this Helm
-  chart. Dremio image specifier was split into an imageName and
-  imageTag parts to follow best practices.  "dist" value in
-  dremio.conf moved to cloud storage where possible (otherwise
-  defaults to pdfs) -- this will lose any previously extant
-  reflections materialisations, user uploads, scratch files, etc.
-  Also added Cloud Cache support (new in Dremio 4.0).  Please see
-  values.yaml for details on this new configuration.
+   If you want to change the expose port on the load balancer, change the value of the setting `coordinator.flight.port` in the file `values.local.yaml`.
+* If the value in the TYPE column of the output is `NodePort`, access Dremio using Flight through http://localhost:31357.
