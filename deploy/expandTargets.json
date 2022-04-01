@@ -1,6 +1,6 @@
   {
   "all": [ "central", "east", "west" ],
-  "central": [ "central-tx-dfw-101" ],
+  "central": [ "central-tx-dfw-101","india-test" ],
   "east": [ "east-ga-atl-101" ],
   "west": [ "west-nv-vegas-101" ]
 }
