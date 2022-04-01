@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: badapp
-  namespace: badapp
+  name: ai-order-accuracy
+  namespace: ai-order-accuracy
   labels:
-    app.kubernetes.io/name: badapp
+    app.kubernetes.io/name: ai-order-accuracy
 spec:
   replicas: 1
   strategy:
@@ -14,37 +14,37 @@ spec:
        maxUnavailable: 1
   selector:
     matchLabels:
-      app: badapp
+      app: ai-order-accuracy
   template:
     metadata:
       labels:
-        app: badapp
+        app: ai-order-accuracy
     spec:
       containers:
         - name: app
-          image: ghcr.io/cse-labs/heartbeat:latest
+          image: ghcr.io/cse-labs/imdb-app:latest
           imagePullPolicy: Always
-          resources:
-            limits:
-              memory: "32Mi"
-              cpu: "100m"
-            requests:
-              memory: "32Mi"
-              cpu: "100m"
+          args: 
+          - --in-memory
+          - --zone
+          - west-wa-seattle
+          - --region
+          - west
           ports:
             - name: http
               containerPort: 8080
               protocol: TCP
-          args:
-          - -url
-          - /badapp
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: badapp
-  namespace: badapp
+  name: ai-order-accuracy
+  namespace: ai-order-accuracy
 spec:
   type: ClusterIP
   ports:
@@ -53,23 +53,23 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: badapp
+    app: ai-order-accuracy
     
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: badapp-https
+  name: ai-order-accuracy-https
   namespace: default
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`west-wa-seattle-101.cseretail.com`) && PathPrefix(`/badapp/`)
+    - match: Host(`west-wa-seattle-101.cseretail.com`)
       kind: Rule
       services:
-        - name: badapp
-          namespace: badapp
+        - name: ai-order-accuracy
+          namespace: ai-order-accuracy
           kind: Service
           port: 8080
   tls:
