@@ -4,9 +4,16 @@
 
 > AutoGitOps Testing
 
-## Overview
+## Create a Codespace from the AKDC repo
 
-- Create a new branch from the `clean` branch
+- The `edge-gitops` repo will be cloned to `/workspaces/edge-gitops` in the AKDC Codespace
+  - <https://github.com/retaildevcrews/akdc>
+
+## Setup
+
+> From the /workspaces/edge-gitops directory
+
+- Create a new branch from the `main` branch
 - Update deploy/expandTargets.json
   - add your regions / districts / stores for testing
     - do not use these prefixes - they are reserved for our demo cluster
@@ -18,11 +25,6 @@
       - west-ca-sd
       - west-wa-redmond
       - west-wa-seattle
-
-## The easiest way to experiment is by creating a Codespace from the `akdc` repo
-
-- This repo will be cloned to `/workspaces/edge-gitops` in that Codespace
-  - <https://github.com/retaildevcrews/akdc>
 
 ### Engineering Docs
 
