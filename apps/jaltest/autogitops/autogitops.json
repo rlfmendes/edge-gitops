@@ -4,5 +4,5 @@
     "name": "jaltest",
     "namespace": "jaltest",
     "targetDir": "apps",
-    "targets": [ "central" ,"west" ]
+    "targets": [ "central" ]
 }
