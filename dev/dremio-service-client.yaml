@@ -6,8 +6,8 @@ metadata:
   name: dremio-client
   labels:
     app: dremio-client
-    
-  
+
+
 spec:
   ports:
   - port: 31010
@@ -34,3 +34,23 @@ spec:
   clusterIP: None
   selector:
     role: dremio-cluster-pod
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dremio-https
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`bartr-test.cseretail.com`)
+      kind: Rule
+      services:
+        - name: dremio-client
+          namespace: default
+          kind: Service
+          port: 9047
+  tls:
+    secretName: ssl-cert
