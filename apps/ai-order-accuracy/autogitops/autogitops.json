@@ -1,8 +1,0 @@
-{
-    "imageName": "ghcr.io/cse-labs/imdb-app",
-    "imageTag": "latest",
-    "name": "ai-order-accuracy",
-    "namespace": "ai-order-accuracy",
-    "targetDir": "apps",
-    "targets": [ "central", "bartr" ]
-}
