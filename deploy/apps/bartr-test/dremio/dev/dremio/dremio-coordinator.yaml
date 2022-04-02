@@ -1,0 +1,100 @@
+---
+# Source: dremio/templates/dremio-coordinator.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dremio-coordinator
+  namespace: dremio
+
+
+spec:
+  serviceName: "dremio-cluster-pod"
+  replicas: 0
+  podManagementPolicy: "Parallel"
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: dremio-coordinator
+  template:
+    metadata:
+      labels:
+        app: dremio-coordinator
+        role: dremio-cluster-pod
+
+      annotations:
+        dremio-configmap/checksum: de4726fe57f2e1250cbf29fbffd4b3bd36c6ae27d4776abc59103d3b0a4a725c
+
+    spec:
+
+      terminationGracePeriodSeconds: 120
+
+
+      containers:
+      - name: dremio-coordinator
+        image: dremio/dremio-oss:20.1.0
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 8
+            memory: 4096M
+        volumeMounts:
+        - name: dremio-config
+          mountPath: /opt/dremio/conf
+        - name: dremio-hive2-config
+          mountPath: /opt/dremio/plugins/connectors/hive2.d
+        - name: dremio-hive2-config
+          mountPath: /opt/dremio/plugins/connectors/hive2-ee.d
+        - name: dremio-hive3-config
+          mountPath: /opt/dremio/plugins/connectors/hive3.d
+        - name: dremio-hive3-config
+          mountPath: /opt/dremio/plugins/connectors/hive3-ee.d
+
+        env:
+        - name: DREMIO_MAX_HEAP_MEMORY_SIZE_MB
+          value: "2048"
+        - name: DREMIO_MAX_DIRECT_MEMORY_SIZE_MB
+          value: "2048"
+        - name: DREMIO_JAVA_SERVER_EXTRA_OPTS
+          value: >-
+            -Dzookeeper=zk-hs:2181
+            -Dservices.coordinator.enabled=true
+            -Dservices.coordinator.master.enabled=false
+            -Dservices.coordinator.master.embedded-zookeeper.enabled=false
+            -Dservices.executor.enabled=false
+            -Dservices.conduit.port=45679
+        - name: AWS_CREDENTIAL_PROFILES_FILE
+          value: "/opt/dremio/aws/credentials"
+        - name: AWS_SHARED_CREDENTIALS_FILE
+          value: "/opt/dremio/aws/credentials"
+        command: ["/opt/dremio/bin/dremio"]
+        args: ["start-fg"]
+        ports:
+        - containerPort: 31010
+          name: client
+        - containerPort: 32010
+          name: flight
+        - containerPort: 45678
+          name: server-fabric
+        - containerPort: 45679
+          name: server-conduit
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 9047
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      initContainers:
+
+      - name: wait-for-dremio-master
+        image: busybox
+        command:  ["sh", "-c", "until nc -z dremio-client 9047 > /dev/null; do echo Waiting for Dremio master.; sleep 2; done;"]
+      volumes:
+      - name: dremio-config
+        configMap:
+          name: dremio-config
+      - name: dremio-hive2-config
+        configMap:
+          name: dremio-hive2-config
+      - name: dremio-hive3-config
+        configMap:
+          name: dremio-hive3-config
