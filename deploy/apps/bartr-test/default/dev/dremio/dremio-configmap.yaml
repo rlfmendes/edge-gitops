@@ -510,6 +510,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: dremio-hive2-config
+  namespace: default
 data:
   README.md: |-
     ### Hive 2 Configuration Files
@@ -520,6 +521,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: dremio-hive3-config
+  namespace: default
 data:
   README.md: |-
     ### Hive 3 Configuration Files
