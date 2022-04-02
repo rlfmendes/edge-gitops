@@ -36,7 +36,7 @@ spec:
         resources:
           requests:
             cpu: 8
-            memory: 4096M
+            memory: 8G
         volumeMounts:
         - name: dremio-config
           mountPath: /opt/dremio/conf

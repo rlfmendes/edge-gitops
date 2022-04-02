@@ -34,8 +34,8 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           requests:
-            cpu: 8
-            memory: 4096M
+            cpu: 16
+            memory: 16G
         volumeMounts:
         - name: dremio-default-executor-volume
           mountPath: /opt/dremio/data
