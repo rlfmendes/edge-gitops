@@ -4,8 +4,9 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: dremio-coordinator
-  
-  
+  namespace: default
+
+
 spec:
   serviceName: "dremio-cluster-pod"
   replicas: 0
@@ -19,15 +20,15 @@ spec:
       labels:
         app: dremio-coordinator
         role: dremio-cluster-pod
-        
+
       annotations:
         dremio-configmap/checksum: de4726fe57f2e1250cbf29fbffd4b3bd36c6ae27d4776abc59103d3b0a4a725c
-        
+
     spec:
-      
+
       terminationGracePeriodSeconds: 120
-      
-      
+
+
       containers:
       - name: dremio-coordinator
         image: dremio/dremio-oss:20.1.0
@@ -47,7 +48,7 @@ spec:
           mountPath: /opt/dremio/plugins/connectors/hive3.d
         - name: dremio-hive3-config
           mountPath: /opt/dremio/plugins/connectors/hive3-ee.d
-        
+
         env:
         - name: DREMIO_MAX_HEAP_MEMORY_SIZE_MB
           value: "2048"
@@ -83,7 +84,7 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
       initContainers:
-      
+
       - name: wait-for-dremio-master
         image: busybox
         command:  ["sh", "-c", "until nc -z dremio-client 9047 > /dev/null; do echo Waiting for Dremio master.; sleep 2; done;"]
