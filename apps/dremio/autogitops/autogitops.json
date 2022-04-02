@@ -2,5 +2,5 @@
     "name": "dremio",
     "namespace": "default",
     "targetDir": "apps",
-    "targets": [ "all" ]
+    "targets": [  ]
 }
