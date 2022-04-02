@@ -4,7 +4,7 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   name: zk-pdb
-  namespace: default
+  namespace: {{gitops.namespace}}
 spec:
   selector:
     matchLabels:
@@ -16,7 +16,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: zk-hs
-  namespace: default
+  namespace: {{gitops.namespace}}
   labels:
     app: zk
 spec:
@@ -36,7 +36,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: zk-cs
-  namespace: default
+  namespace: {{gitops.namespace}}
   labels:
     app: zk
 spec:
@@ -51,7 +51,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: zk
-  namespace: default
+  namespace: {{gitops.namespace}}
 
 spec:
   selector:
@@ -138,7 +138,7 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: datadir
-      namespace: default
+      namespace: {{gitops.namespace}}
     spec:
       accessModes: ["ReadWriteOnce"]
 

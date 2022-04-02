@@ -4,7 +4,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dremio-client
-  namespace: default
+  namespace: {{gitops.namespace}}
   labels:
     app: dremio-client
 
@@ -29,7 +29,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dremio-cluster-pod
-  namespace: default
+  namespace: {{gitops.namespace}}
 spec:
   ports:
   - port: 9999
@@ -42,7 +42,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: dremio-https
-  namespace: default
+  namespace: {{gitops.namespace}}
 spec:
   entryPoints:
     - websecure
@@ -51,7 +51,7 @@ spec:
       kind: Rule
       services:
         - name: dremio-client
-          namespace: default
+          namespace: {{gitops.namespace}}
           kind: Service
           port: 9047
   tls:

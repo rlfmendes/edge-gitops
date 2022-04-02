@@ -4,7 +4,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: dremio-master
-  namespace: default
+  namespace: {{gitops.namespace}}
 
 spec:
   serviceName: "dremio-cluster-pod"
@@ -142,7 +142,7 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: dremio-master-volume
-      namespace: default
+      namespace: {{gitops.namespace}}
     spec:
       accessModes: ["ReadWriteOnce"]
 

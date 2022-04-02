@@ -1,6 +1,6 @@
 {
     "name": "dremio",
-    "namespace": "default",
+    "namespace": "dremio",
     "targetDir": "apps",
     "targets": [  ]
 }
