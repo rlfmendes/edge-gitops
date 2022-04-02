@@ -1,4 +1,4 @@
 {
-  "apps": [ "heartbeat" ],
+  "apps": [ "heartbeat", "dremio" ],
   "appsDir": "apps"
 }
