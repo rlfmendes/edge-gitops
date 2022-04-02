@@ -4,8 +4,8 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: dremio-executor
-  
-  
+  namespace: default
+
 spec:
   serviceName: "dremio-cluster-pod"
   replicas: 1
@@ -19,15 +19,15 @@ spec:
       labels:
         app: dremio-executor
         role: dremio-cluster-pod
-        
+
       annotations:
         dremio-configmap/checksum: de4726fe57f2e1250cbf29fbffd4b3bd36c6ae27d4776abc59103d3b0a4a725c
-        
+
     spec:
-      
+
       terminationGracePeriodSeconds: 120
-      
-      
+
+
       containers:
       - name: dremio-executor
         image: dremio/dremio-oss:20.1.0
@@ -49,10 +49,10 @@ spec:
           mountPath: /opt/dremio/plugins/connectors/hive3.d
         - name: dremio-hive3-config
           mountPath: /opt/dremio/plugins/connectors/hive3-ee.d
-        
+
         - name: dremio-default-executor-c3-0
           mountPath: /opt/dremio/cloudcache/c0
-        
+
         env:
         - name: DREMIO_MAX_HEAP_MEMORY_SIZE_MB
           value: "2048"
@@ -79,7 +79,7 @@ spec:
         - containerPort: 45679
           name: server-conduit
       initContainers:
-      
+
       - name: chown-data-directory
         image: dremio/dremio-oss:20.1.0
         imagePullPolicy: IfNotPresent
@@ -96,7 +96,7 @@ spec:
         securityContext:
           runAsUser: 0
         volumeMounts:
-        
+
         - name: dremio-default-executor-c3-0
           mountPath: /opt/dremio/cloudcache/c0
         command: ["bash"]
@@ -114,20 +114,22 @@ spec:
       - name: dremio-hive3-config
         configMap:
           name: dremio-hive3-config
-      
-      
+
+
   volumeClaimTemplates:
   - metadata:
       name: dremio-default-executor-volume
+      namespace: default
     spec:
       accessModes: ["ReadWriteOnce"]
-      
+
       resources:
         requests:
           storage: 128Gi
-  
+
   - metadata:
       name: dremio-default-executor-c3-0
+      namespace: default
     spec:
       accessModes: ["ReadWriteOnce"]
       resources:

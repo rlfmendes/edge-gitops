@@ -4,6 +4,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dremio-client
+  namespace: default
   labels:
     app: dremio-client
 
@@ -28,6 +29,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dremio-cluster-pod
+  namespace: default
 spec:
   ports:
   - port: 9999

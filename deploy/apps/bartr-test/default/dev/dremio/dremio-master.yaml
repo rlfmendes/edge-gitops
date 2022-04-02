@@ -4,8 +4,8 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: dremio-master
-  
-  
+  namespace: default
+
 spec:
   serviceName: "dremio-cluster-pod"
   podManagementPolicy: "Parallel"
@@ -18,12 +18,12 @@ spec:
       labels:
         app: dremio-coordinator
         role: dremio-cluster-pod
-        
+
       annotations:
         dremio-configmap/checksum: de4726fe57f2e1250cbf29fbffd4b3bd36c6ae27d4776abc59103d3b0a4a725c
-        
+
     spec:
-      
+
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -35,8 +35,8 @@ spec:
                     - dremio-coordinator
               topologyKey: "kubernetes.io/hostname"
       terminationGracePeriodSeconds: 120
-      
-      
+
+
       containers:
       - name: dremio-master-coordinator
         image: dremio/dremio-oss:20.1.0
@@ -58,7 +58,7 @@ spec:
           mountPath: /opt/dremio/plugins/connectors/hive3.d
         - name: dremio-hive3-config
           mountPath: /opt/dremio/plugins/connectors/hive3-ee.d
-        
+
         env:
         - name: DREMIO_MAX_HEAP_MEMORY_SIZE_MB
           value: "2048"
@@ -97,7 +97,7 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
       initContainers:
-      
+
       - name: start-only-one-dremio-master
         image: busybox
         command: ["sh", "-c", "INDEX=${HOSTNAME##*-}; if [ $INDEX -ne 0 ]; then echo Only one master should be running.; exit 1; fi; "]
@@ -137,14 +137,15 @@ spec:
       - name: dremio-hive3-config
         configMap:
           name: dremio-hive3-config
-      
-      
+
+
   volumeClaimTemplates:
   - metadata:
       name: dremio-master-volume
+      namespace: default
     spec:
       accessModes: ["ReadWriteOnce"]
-      
+
       resources:
         requests:
           storage: 128Gi
