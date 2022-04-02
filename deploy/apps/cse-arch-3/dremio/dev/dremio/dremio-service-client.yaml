@@ -42,12 +42,12 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: dremio-https
-  namespace: dremio
+  namespace: default
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`bartr-test.cseretail.com`)
+    - match: Host(`cse-arch-3.cseretail.com`)
       kind: Rule
       services:
         - name: dremio-client
