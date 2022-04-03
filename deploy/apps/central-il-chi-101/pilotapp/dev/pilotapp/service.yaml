@@ -14,3 +14,24 @@ metadata:
   labels:
     app: pilotapp
   name: pilotapp
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pilotapp-https
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`central-il-chi-101.cseretail.com`)
+      kind: Rule
+      services:
+        - name: pilotapp
+          namespace: pilotapp
+          kind: Service
+          port: 8080
+  tls:
+    secretName: ssl-cert
