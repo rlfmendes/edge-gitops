@@ -1,7 +1,6 @@
 {
   "all": [ "central", "east", "west" ],
-  "test-tx-atx": [ "test-tx-atx-101", "test-tx-atx-102", "test-tx-atx-103" ],
-  "central": [ "test-tx-atx", "bartr-central" ],
-  "east": [ "bartr-east" ],
-  "west": [ "bartr-west" ]
+  "central": [ "central-il-chi-101", "central-il-chi-102" ],
+  "east": [ "east-ny-nyc-101", "east-ny-nyc-102" ],
+  "west": [ "west-or-pdx-101", "west-or-pdx-102" ]
 }
