@@ -1,4 +1,4 @@
 {
-  "apps": [ "heartbeat", "imdb" ],
+  "apps": [ "heartbeat" ],
   "appsDir": "apps"
 }
