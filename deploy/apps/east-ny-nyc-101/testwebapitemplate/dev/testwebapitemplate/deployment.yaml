@@ -23,9 +23,9 @@ spec:
 
           args:
           - --zone
-          - central-il-chi
+          - east-ny-nyc
           - --region
-          - central
+          - east
 
           ports:
             - name: http

@@ -26,7 +26,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`central-il-chi-102.cseretail.com`)
+    - match: Host(`east-ny-nyc-102.cseretail.com`)
       kind: Rule
       services:
         - name: testwebapitemplate
