@@ -1,0 +1,137 @@
+---
+# Source: dremio/templates/dremio-executor.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dremio-executor
+  namespace: dremio
+
+spec:
+  serviceName: "dremio-cluster-pod"
+  replicas: 1
+  podManagementPolicy: "Parallel"
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: dremio-executor
+  template:
+    metadata:
+      labels:
+        app: dremio-executor
+        role: dremio-cluster-pod
+
+      annotations:
+        dremio-configmap/checksum: de4726fe57f2e1250cbf29fbffd4b3bd36c6ae27d4776abc59103d3b0a4a725c
+
+    spec:
+
+      terminationGracePeriodSeconds: 120
+
+
+      containers:
+      - name: dremio-executor
+        image: dremio/dremio-oss:20.1.0
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 16
+            memory: 16G
+        volumeMounts:
+        - name: dremio-default-executor-volume
+          mountPath: /opt/dremio/data
+        - name: dremio-config
+          mountPath: /opt/dremio/conf
+        - name: dremio-hive2-config
+          mountPath: /opt/dremio/plugins/connectors/hive2.d
+        - name: dremio-hive2-config
+          mountPath: /opt/dremio/plugins/connectors/hive2-ee.d
+        - name: dremio-hive3-config
+          mountPath: /opt/dremio/plugins/connectors/hive3.d
+        - name: dremio-hive3-config
+          mountPath: /opt/dremio/plugins/connectors/hive3-ee.d
+
+        - name: dremio-default-executor-c3-0
+          mountPath: /opt/dremio/cloudcache/c0
+
+        env:
+        - name: DREMIO_MAX_HEAP_MEMORY_SIZE_MB
+          value: "2048"
+        - name: DREMIO_MAX_DIRECT_MEMORY_SIZE_MB
+          value: "2048"
+        - name: DREMIO_JAVA_SERVER_EXTRA_OPTS
+          value: >-
+            -Dzookeeper=zk-hs:2181
+            -Dservices.coordinator.enabled=false
+            -Dservices.coordinator.master.enabled=false
+            -Dservices.coordinator.master.embedded-zookeeper.enabled=false
+            -Dservices.executor.enabled=true
+            -Dservices.conduit.port=45679
+            -Dservices.node-tag=default
+        - name: AWS_CREDENTIAL_PROFILES_FILE
+          value: "/opt/dremio/aws/credentials"
+        - name: AWS_SHARED_CREDENTIALS_FILE
+          value: "/opt/dremio/aws/credentials"
+        command: ["/opt/dremio/bin/dremio"]
+        args: ["start-fg"]
+        ports:
+        - containerPort: 45678
+          name: server-fabric
+        - containerPort: 45679
+          name: server-conduit
+      initContainers:
+
+      - name: chown-data-directory
+        image: dremio/dremio-oss:20.1.0
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+        - name: dremio-default-executor-volume
+          mountPath: /opt/dremio/data
+        command: ["chown"]
+        args: ["dremio:dremio", "/opt/dremio/data"]
+      - name: chown-cloudcache-directory
+        image: dremio/dremio-oss:20.1.0
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+
+        - name: dremio-default-executor-c3-0
+          mountPath: /opt/dremio/cloudcache/c0
+        command: ["bash"]
+        args: ["-c", "chown dremio:dremio /opt/dremio/cloudcache/c*"]
+      - name: wait-for-zookeeper
+        image: busybox
+        command:  ["sh", "-c", "until ping -c 1 -W 1 zk-hs > /dev/null; do echo Waiting for Zookeeper to be ready.; sleep 2; done;"]
+      volumes:
+      - name: dremio-config
+        configMap:
+          name: dremio-config
+      - name: dremio-hive2-config
+        configMap:
+          name: dremio-hive2-config
+      - name: dremio-hive3-config
+        configMap:
+          name: dremio-hive3-config
+
+
+  volumeClaimTemplates:
+  - metadata:
+      name: dremio-default-executor-volume
+      namespace: dremio
+    spec:
+      accessModes: ["ReadWriteOnce"]
+
+      resources:
+        requests:
+          storage: 128Gi
+
+  - metadata:
+      name: dremio-default-executor-c3-0
+      namespace: dremio
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 100Gi
