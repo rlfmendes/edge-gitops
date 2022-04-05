@@ -23,9 +23,9 @@ spec:
 
           args:
           - --zone
-          - central-il-chi
+          - west-or-pdx
           - --region
-          - central
+          - west
 
           ports:
             - name: http
