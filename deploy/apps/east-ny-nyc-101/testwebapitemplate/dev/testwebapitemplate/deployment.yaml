@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: testwebapitemplate
+        deployTag: deploy-22-04-06-05-12-00
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8080'
