@@ -77,21 +77,21 @@ go install -v golang.org/x/tools/gopls@latest
 cp -r .devcontainer/.vscode .
 
 # clone repos
-cd ..
-git clone https://github.com/microsoft/webvalidate
-git clone https://github.com/cse-labs/imdb-app
-git clone https://github.com/cse-labs/kubernetes-in-codespaces inner-loop
-git clone https://github.com/retaildevcrews/vtlog
-cd "$REPO_BASE" || exit
+# cd ..
+# git clone https://github.com/microsoft/webvalidate
+# git clone https://github.com/cse-labs/imdb-app
+# git clone https://github.com/cse-labs/kubernetes-in-codespaces inner-loop
+# git clone https://github.com/retaildevcrews/vtlog
+# cd "$REPO_BASE" || exit
 
 echo "generating kic completion"
 kic completion zsh > "$HOME/.oh-my-zsh/completions/_kic"
 flt completion zsh > "$HOME/.oh-my-zsh/completions/_flt"
 
 echo "creating k3d cluster"
-cd ../inner-loop || exit
-kic cluster rebuild
-cd "$REPO_BASE" || exit
+# cd ../inner-loop || exit
+# kic cluster rebuild
+# cd "$REPO_BASE" || exit
 
 echo "on-create complete"
 echo "$(date +'%Y-%m-%d %H:%M:%S')    on-create complete" >> "$HOME/status"
