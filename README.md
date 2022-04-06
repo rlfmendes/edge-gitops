@@ -23,22 +23,70 @@ Once Codespaces is running:
 
 > Make sure your terminal is running zsh - bash is not supported and will not work
 
-## Setup
+## Test Fleet
 
-> From the /workspaces/edge-gitops directory
+- Request the Platform Team to create your test fleet
+- They will provide the branch name
+- Checkout your branch
 
-- Create a new branch from the `main` branch
-- Update deploy/expandTargets.json
-  - add your regions / districts / stores for testing
-    - do not use these prefixes - they are reserved for our demo cluster
-      - corp-monitoring
-      - central-mo-kc
-      - central-tx-austin
-      - east-ga-atlanta
-      - east-nc-raleigh
-      - west-ca-sd
-      - west-wa-redmond
-      - west-wa-seattle
+  ```bash
+
+  cd /workspaces/edge-gitops
+  git pull
+  git checkout yourBranchName
+  git pull
+
+  ```
+
+## Check your Fleet
+
+> flt is the fleet CLI provided by the platform team
+
+```bash
+
+# list clusters in the fleet
+flt list
+
+# check heartbeat on the fleet
+flt check heartbeat
+
+# update the fleet
+# (run twice if there are updates so you can see it's clean)
+flt pull
+
+# explore the flt CLI
+flt -h
+
+```
+
+> Note that the create, delete, and groups commands will not work unless you're on the core platform team
+
+## Deploy a new app
+
+- AI Order Accuracy is the reference app that has been renamed
+
+```bash
+
+cd apps/ai-order-accuracy
+
+# check deploy targets (should be [])
+flt targets list
+
+# add the central region as a target
+flt targets add central
+
+# deploy the changes
+flt targets deploy
+
+# force flux to sync
+# note the github commit ID will change when ci-cd is complete
+# you may have to run multiple times
+flt sync
+
+# check that ai-order-accuracy is deployed to central
+flt check ai-order-accuracy
+
+```
 
 ### Engineering Docs
 
