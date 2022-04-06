@@ -45,51 +45,53 @@ mkdir -p "$HOME/.oh-my-zsh/completions"
 } >> "$HOME/.zshrc"
 
 # create local registry
-# docker network create k3d
-# k3d registry create registry.localhost --port 5500
-# docker network connect k3d k3d-registry.localhost
+docker network create k3d
+k3d registry create registry.localhost --port 5500
+docker network connect k3d k3d-registry.localhost
 
 # pull the base docker images
-# docker pull mcr.microsoft.com/dotnet/sdk:5.0-alpine
-# docker pull mcr.microsoft.com/dotnet/aspnet:5.0-alpine
-# docker pull mcr.microsoft.com/dotnet/sdk:5.0
-# docker pull mcr.microsoft.com/dotnet/aspnet:6.0-alpine
-# docker pull mcr.microsoft.com/dotnet/sdk:6.0
-# docker pull ghcr.io/cse-labs/webv-red:latest
-# docker pull ghcr.io/cse-labs/webv-red:beta
-# docker pull ghcr.io/retaildevcrews/autogitops:beta
+docker pull mcr.microsoft.com/dotnet/sdk:5.0-alpine
+docker pull mcr.microsoft.com/dotnet/aspnet:5.0-alpine
+docker pull mcr.microsoft.com/dotnet/sdk:5.0
+docker pull mcr.microsoft.com/dotnet/aspnet:6.0-alpine
+docker pull mcr.microsoft.com/dotnet/sdk:6.0
+docker pull ghcr.io/cse-labs/webv-red:latest
+docker pull ghcr.io/cse-labs/webv-red:beta
+docker pull ghcr.io/retaildevcrews/autogitops:beta
 
 # install go modules
-# go install -v github.com/spf13/cobra/cobra@latest
-# go install -v golang.org/x/lint/golint@latest
-# go install -v github.com/uudashr/gopkgs/v2/cmd/gopkgs@latest
-# go install -v github.com/ramya-rao-a/go-outline@latest
-# go install -v github.com/cweill/gotests/gotests@latest
-# go install -v github.com/fatih/gomodifytags@latest
-# go install -v github.com/josharian/impl@latest
-# go install -v github.com/haya14busa/goplay/cmd/goplay@latest
-# go install -v github.com/go-delve/delve/cmd/dlv@latest
-# go install -v honnef.co/go/tools/cmd/staticcheck@latest
-# go install -v golang.org/x/tools/gopls@latest
-
-cp -r .devcontainer/.vscode .
+go install -v github.com/spf13/cobra/cobra@latest
+go install -v golang.org/x/lint/golint@latest
+go install -v github.com/uudashr/gopkgs/v2/cmd/gopkgs@latest
+go install -v github.com/ramya-rao-a/go-outline@latest
+go install -v github.com/cweill/gotests/gotests@latest
+go install -v github.com/fatih/gomodifytags@latest
+go install -v github.com/josharian/impl@latest
+go install -v github.com/haya14busa/goplay/cmd/goplay@latest
+go install -v github.com/go-delve/delve/cmd/dlv@latest
+go install -v honnef.co/go/tools/cmd/staticcheck@latest
+go install -v golang.org/x/tools/gopls@latest
 
 # clone repos
-# cd ..
-# git clone https://github.com/microsoft/webvalidate
-# git clone https://github.com/cse-labs/imdb-app
-# git clone https://github.com/cse-labs/kubernetes-in-codespaces inner-loop
-# git clone https://github.com/retaildevcrews/vtlog
-# cd "$REPO_BASE" || exit
+cd ..
+git clone https://github.com/microsoft/webvalidate
+git clone https://github.com/cse-labs/imdb-app
+git clone https://github.com/cse-labs/kubernetes-in-codespaces inner-loop
+git clone https://github.com/retaildevcrews/vtlog
+cd "$REPO_BASE" || exit
+
+# download cli
+wget -O /workspaces/inner-loop/bin/kic https://github.com/retaildevcrews/fleet-vm/raw/main/bin/kic
+chmod +x /workspaces/inner-loop/bin/kic
 
 # echo "generating kic completion"
-# kic completion zsh > "$HOME/.oh-my-zsh/completions/_kic"
-# flt completion zsh > "$HOME/.oh-my-zsh/completions/_flt"
+kic completion zsh > "$HOME/.oh-my-zsh/completions/_kic"
+flt completion zsh > "$HOME/.oh-my-zsh/completions/_flt"
 
 echo "creating k3d cluster"
-# cd ../inner-loop || exit
-# kic cluster rebuild
-# cd "$REPO_BASE" || exit
+cd ../inner-loop || exit
+kic cluster rebuild
+cd "$REPO_BASE" || exit
 
 echo "on-create complete"
 echo "$(date +'%Y-%m-%d %H:%M:%S')    on-create complete" >> "$HOME/status"
