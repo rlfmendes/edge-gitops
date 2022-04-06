@@ -4,5 +4,5 @@
     "imageName": "ghcr.io/retaildevcrews/vtlog",
     "imageTag": "beta",
     "targetDir": "apps",
-    "targets": []
+    "targets": [ "wabrez" ]
 }

@@ -1,6 +1,7 @@
 {
-  "all": [ "central", "east", "west", "test-cluster" ],
+  "all": [ "central", "east", "west", "test-cluster", "wabrez" ],
   "bartr": [ "bartr-central", "bartr-east", "bartr-west" ],
+  "wabrez": [ "wabrez-westus-101" ],
   "west-co-denver": [ "west-co-denver-101", "west-co-denver-102" ],
   "test-tx-atx": [ "test-tx-atx-101", "test-tx-atx-102", "test-tx-atx-103" ],
   "central": [
