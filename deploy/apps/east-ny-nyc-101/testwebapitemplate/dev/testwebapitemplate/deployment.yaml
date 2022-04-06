@@ -12,7 +12,7 @@ spec:
     metadata:
       labels:
         app: testwebapitemplate
-        buildTag: build-0.0.1-0406-0521
+        buildTag: build-0.0.1-0406-0547
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8080'
