@@ -1,7 +1,7 @@
 {
   "all": [ "central", "east", "west", "test-cluster", "wabrez" ],
   "bartr": [ "bartr-central", "bartr-east", "bartr-west" ],
-  "wabrez": [ "wabrez-westus-101" ],
+  "wabrez": [ "wabrez-west-101" ],
   "west-co-denver": [ "west-co-denver-101", "west-co-denver-102" ],
   "test-tx-atx": [ "test-tx-atx-101", "test-tx-atx-102", "test-tx-atx-103" ],
   "central": [
@@ -223,7 +223,8 @@
     "west-wa-sea",
     "west-wa-spokane",
     "west-wa-tacoma",
-    "west-wa-west"
+    "west-wa-west",
+    "wabrez-west-101"
   ],
   "west-ca-east": [
     "west-ca-east-101",
