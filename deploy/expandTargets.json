@@ -1,6 +1,21 @@
   {
-  "all": [ "central", "east", "west" ],
-  "central": [ "central-tx-dfw-101" ],
-  "east": [ "east-ga-atl-101" ],
-  "west": [ "west-nv-vegas-101", "wabrez-wa-seattle-101" ]
-}
+    "all": [
+      "central",
+      "east",
+      "west",
+      "wabrez"
+    ],
+    "central": [
+      "central-tx-dfw-101"
+    ],
+    "east": [
+      "east-ga-atl-101"
+    ],
+    "west": [
+      "west-nv-vegas-101",
+      "wabrez-wa-seattle-101"
+    ],
+    "wabrez": [
+      "wabrez-wa-seattle-101"
+    ]
+  }
