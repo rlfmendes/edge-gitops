@@ -1,5 +1,4 @@
   {
-  "all": [ "central", "east", "west" ],
   "central": [ "central-ar-lr-101" ],
   "east": [ "east-tn-nashville-101" ],
   "west": [ "west-wa-spokane-101" ]
