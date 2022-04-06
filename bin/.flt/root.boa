@@ -1,0 +1,11 @@
+###
+# root description and commands
+###
+
+root
+	name: flt
+	short: Retail Edge CLI
+	long: Retail Edge CLI\n\n  A CLI for automating many Kubernetes fleet tasks
+
+runCommand
+	path: az-login

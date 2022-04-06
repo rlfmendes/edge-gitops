@@ -2,12 +2,26 @@
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-> AutoGitOps Testing
+> We use multiple GitHub Repos, so you have to use a PAT
 
-## Create a Codespace from the AKDC repo
+- Create a Personal Access Token (PAT) in your GitHub account
+  - Grant repo and package access
+  - You can use an existing PAT
+  - <https://github.com/settings/tokens>
 
-- The `edge-gitops` repo will be cloned to `/workspaces/edge-gitops` in the AKDC Codespace
-  - <https://github.com/retaildevcrews/akdc>
+- Create a personal Codespace secret
+  - <https://github.com/settings/codespaces>
+  - Name: PAT
+  - Value: the PAT you just created
+  - Grant access to this repo and any other repos you want
+
+## Create a Codespace
+
+- Click on `Code` then click `New Codespace`
+
+Once Codespaces is running:
+
+> Make sure your terminal is running zsh - bash is not supported and will not work
 
 ## Setup
 
