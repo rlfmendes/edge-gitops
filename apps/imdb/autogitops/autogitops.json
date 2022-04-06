@@ -3,6 +3,6 @@
     "imageTag": "latest",
     "name": "imdb",
     "namespace": "imdb",
-    "targetDir": "deploy/apps",
+    "targetDir": "apps",
     "targets": [ "central" ]
 }
