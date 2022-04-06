@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: brijwebapi
+        buildTag: build-2204-06-06
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8080'
