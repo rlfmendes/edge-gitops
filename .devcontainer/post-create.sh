@@ -27,10 +27,10 @@ chmod 600 "$HOME"/.ssh/*.key
 git -C "$HOME/.oh-my-zsh" pull
 
 # update repos
-git -C ../webvalidate pull
-git -C ../imdb-app pull
-git -C ../inner-loop pull
-git -C ../vtlog pull
+# git -C ../webvalidate pull
+# git -C ../imdb-app pull
+# git -C ../inner-loop pull
+# git -C ../vtlog pull
 
 echo "post-create complete"
 echo "$(date +'%Y-%m-%d %H:%M:%S')    post-create complete" >> "$HOME/status"
