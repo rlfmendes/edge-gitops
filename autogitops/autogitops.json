@@ -1,4 +1,4 @@
 {
-  "apps": [ "ai-order-accuracy", "badapp", "heartbeat" ],
+  "apps": [ "imdb", "heartbeat" ],
   "appsDir": "apps"
 }
