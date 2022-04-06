@@ -77,12 +77,12 @@ go install -v golang.org/x/tools/gopls@latest
 cp -r .devcontainer/.vscode .
 
 # clone repos
-# cd ..
-# git clone https://github.com/microsoft/webvalidate
-# git clone https://github.com/cse-labs/imdb-app
-# git clone https://github.com/cse-labs/kubernetes-in-codespaces inner-loop
-# git clone https://github.com/retaildevcrews/vtlog
-# cd "$REPO_BASE" || exit
+cd ..
+git clone https://github.com/microsoft/webvalidate
+git clone https://github.com/cse-labs/imdb-app
+git clone https://github.com/cse-labs/kubernetes-in-codespaces inner-loop
+git clone https://github.com/retaildevcrews/vtlog
+cd "$REPO_BASE" || exit
 
 echo "generating kic completion"
 kic completion zsh > "$HOME/.oh-my-zsh/completions/_kic"
