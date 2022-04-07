@@ -3,6 +3,7 @@ kind: Namespace
 metadata:
   labels:
     name: vtlog
+    istio-injection: enabled
   name: vtlog
 
 ---
