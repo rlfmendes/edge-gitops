@@ -4,5 +4,8 @@
     "name": "ai-order-accuracy",
     "namespace": "ai-order-accuracy",
     "targetDir": "apps",
-    "targets": [ "central", "west" ]
+    "targets": [
+        "central",
+        "west"
+    ]
 }
