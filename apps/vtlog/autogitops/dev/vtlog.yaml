@@ -1,3 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    name: {{gitops.name}}
+    istio-injection: enabled
+  name: vtlog
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
