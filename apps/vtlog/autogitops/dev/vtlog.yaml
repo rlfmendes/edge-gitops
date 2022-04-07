@@ -113,6 +113,6 @@ spec:
         uri: "/tlog"
       route:
         - destination:
-            host: vtlog
+            host: {{gitops.name}}
             port:
               number: 8080

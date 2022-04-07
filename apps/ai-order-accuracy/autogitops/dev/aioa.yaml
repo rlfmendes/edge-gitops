@@ -55,22 +55,50 @@ spec:
   selector:
     app: {{gitops.name}}
 
-# ---
-# apiVersion: traefik.containo.us/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: {{gitops.name}}-https
-#   namespace: default
-# spec:
-#   entryPoints:
-#     - websecure
-#   routes:
-#     - match: Host(`{{gitops.config.domain}}`)
-#       kind: Rule
-#       services:
-#         - name: {{gitops.name}}
-#           namespace: {{gitops.namespace}}
-#           kind: Service
-#           port: 8080
-#   tls:
-#     secretName: ssl-cert
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{gitops.name}}-gateway
+  namespace: {{gitops.namespace}}
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "{{gitops.config.domain}}"
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - "{{gitops.config.domain}}"
+      tls:
+        mode: SIMPLE
+        credentialName: ssl-cert
+
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{gitops.name}}-vs
+  namespace: {{gitops.namespace}}
+spec:
+  hosts:
+    - "{{gitops.config.domain}}"
+  gateways:
+    - {{gitops.name}}-gateway
+  http:
+    - match:
+        - uri:
+            prefix: "/"
+      route:
+        - destination:
+            host: {{gitops.name}}
+            port:
+              number: 8080
