@@ -51,22 +51,22 @@ spec:
   selector:
     app: heartbeat
 
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: heartbeat-https
-  namespace: default
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`wabrez-wa-seattle-105.cseretail.com`) && PathPrefix(`/heartbeat/`)
-      kind: Rule
-      services:
-        - name: heartbeat
-          namespace: heartbeat
-          kind: Service
-          port: 8080
-  tls:
-    secretName: ssl-cert
+#---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: heartbeat-https
+#   namespace: default
+# spec:
+#   entryPoints:
+#     - websecure
+#   routes:
+#     - match: Host(`wabrez-wa-seattle-105.cseretail.com`) && PathPrefix(`/heartbeat/`)
+#       kind: Rule
+#       services:
+#         - name: heartbeat
+#           namespace: heartbeat
+#           kind: Service
+#           port: 8080
+#   tls:
+#     secretName: ssl-cert
