@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 04-03-2022 02:28:16 added cluster: central-il-chi-101
 04-03-2022 02:29:46 added cluster: central-il-chi-102
 04-03-2022 02:30:45 added cluster: east-ny-nyc-101
@@ -6,3 +7,10 @@
 04-03-2022 02:34:11 added cluster: west-or-pdx-102
 04-04-2022 06:23:45 added cluster: central-india-delhi-101
 04-04-2022 06:51:48 added cluster: central-il-chi-102
+=======
+west-co-denver-101
+03-11-2022 19:24:28 added cluster: bartr-central
+03-16-2022 21:22:51 added cluster: bartr-west
+03-21-2022 17:05:45 added cluster: west-wa-redmond-102
+04-02-2022 19:52:09 added cluster: cse-arch-4
+>>>>>>> eb0eab631a1aba7dd0da256b37ba62a29197cbb6

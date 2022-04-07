@@ -1,4 +1,8 @@
 {
+<<<<<<< HEAD
   "apps": [ "heartbeat" ],
+=======
+  "apps": [ "ai-order-accuracy", "badapp", "heartbeat" ],
+>>>>>>> eb0eab631a1aba7dd0da256b37ba62a29197cbb6
   "appsDir": "apps"
 }

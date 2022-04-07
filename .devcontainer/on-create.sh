@@ -8,7 +8,11 @@ echo "$(date +'%Y-%m-%d %H:%M:%S')    on-create start" >> "$HOME/status"
 export REPO_BASE=$PWD
 export AKDC_REPO=retaildevcrews/edge-gitops
 
+<<<<<<< HEAD
 export PATH="$PATH:$REPO_BASE/bin:$(dirname "$REPO_BASE")/inner-loop/bin"
+=======
+export PATH="$PATH:$(dirname "$REPO_BASE")/cli/bin"
+>>>>>>> eb0eab631a1aba7dd0da256b37ba62a29197cbb6
 export GOPATH="$HOME/go"
 
 mkdir -p "$HOME/.ssh"
@@ -24,7 +28,11 @@ mkdir -p "$HOME/.oh-my-zsh/completions"
     echo 'hsort() { read -r; printf "%s\\n" "$REPLY"; sort }'
 
     # add cli to path
+<<<<<<< HEAD
     echo "export PATH=\$PATH:$REPO_BASE/bin:$(dirname "$REPO_BASE")/inner-loop/bin"
+=======
+    echo "export PATH=\$PATH:$(dirname "$REPO_BASE")/cli/bin"
+>>>>>>> eb0eab631a1aba7dd0da256b37ba62a29197cbb6
     echo "export GOPATH=\$HOME/go"
 
     # create aliases
@@ -78,12 +86,18 @@ git clone https://github.com/microsoft/webvalidate
 git clone https://github.com/cse-labs/imdb-app
 git clone https://github.com/cse-labs/kubernetes-in-codespaces inner-loop
 git clone https://github.com/retaildevcrews/vtlog
+<<<<<<< HEAD
 cd "$REPO_BASE" || exit
 
 # download cli
 wget -O /workspaces/inner-loop/bin/kic https://github.com/retaildevcrews/fleet-vm/raw/main/bin/kic
 chmod +x /workspaces/inner-loop/bin/kic
 
+=======
+git clone https://github.com/retaildevcrews/re-cli cli
+cd "$REPO_BASE" || exit
+
+>>>>>>> eb0eab631a1aba7dd0da256b37ba62a29197cbb6
 # echo "generating kic completion"
 kic completion zsh > "$HOME/.oh-my-zsh/completions/_kic"
 flt completion zsh > "$HOME/.oh-my-zsh/completions/_flt"
