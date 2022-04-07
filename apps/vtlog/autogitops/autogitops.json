@@ -5,6 +5,7 @@
     "namespace": "vtlog",
     "targetDir": "apps",
     "targets": [
-        "west"
+        "west",
+        "wabrez"
     ]
 }
