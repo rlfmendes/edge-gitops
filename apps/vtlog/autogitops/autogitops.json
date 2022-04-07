@@ -4,5 +4,7 @@
     "imageName": "ghcr.io/retaildevcrews/vtlog",
     "imageTag": "beta",
     "targetDir": "apps",
-    "targets": ["west"]
+    "targets": [
+        "west"
+    ]
 }
