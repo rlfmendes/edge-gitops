@@ -1,12 +1,6 @@
   {
   "all": [ "central", "east", "west" ],
-<<<<<<< HEAD
   "central": [ "central-il-chi-101", "central-il-chi-102" ],
   "east": [ "east-ny-nyc-101", "east-ny-nyc-102" ],
   "west": [ "west-or-pdx-101", "west-or-pdx-102" ]
-=======
-  "central": [ "central-tx-dfw-101" ],
-  "east": [ "east-ga-atl-101" ],
-  "west": [ "west-nv-vegas-101" ]
->>>>>>> eb0eab631a1aba7dd0da256b37ba62a29197cbb6
 }
