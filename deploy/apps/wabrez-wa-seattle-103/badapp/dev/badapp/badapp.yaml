@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: badapp
+  namespace: badapp
+  labels:
+    app.kubernetes.io/name: badapp
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+       maxSurge: 1
+       maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: badapp
+  template:
+    metadata:
+      labels:
+        app: badapp
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/cse-labs/heartbeat:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "32Mi"
+              cpu: "100m"
+            requests:
+              memory: "32Mi"
+              cpu: "100m"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          args:
+          - -url
+          - /badapp
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: badapp
+  namespace: badapp
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: badapp
+    
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: badapp-https
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`wabrez-wa-seattle-103.cseretail.com`) && PathPrefix(`/badapp/`)
+      kind: Rule
+      services:
+        - name: badapp
+          namespace: badapp
+          kind: Service
+          port: 8080
+  tls:
+    secretName: ssl-cert
