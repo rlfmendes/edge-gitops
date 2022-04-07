@@ -51,22 +51,51 @@ spec:
   selector:
     app: heartbeat
 
-#---
-# apiVersion: traefik.containo.us/v1alpha1
-# kind: IngressRoute
-# metadata:
-#   name: heartbeat-https
-#   namespace: default
-# spec:
-#   entryPoints:
-#     - websecure
-#   routes:
-#     - match: Host(`wabrez-wa-seattle-105.cseretail.com`) && PathPrefix(`/heartbeat/`)
-#       kind: Rule
-#       services:
-#         - name: heartbeat
-#           namespace: heartbeat
-#           kind: Service
-#           port: 8080
-#   tls:
-#     secretName: ssl-cert
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: heartbeat-gateway
+  namespace: heartbeat
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "wabrez-wa-seattle-105.cseretail.com"
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - "wabrez-wa-seattle-105.cseretail.com"
+      tls:
+        mode: SIMPLE
+        credentialName: ssl-cert
+
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: heartbeat-vs
+  namespace: heartbeat
+spec:
+  hosts:
+    - "wabrez-wa-seattle-105.cseretail.com"
+  gateways:
+    - heartbeat-gateway
+  http:
+    - match:
+        - uri:
+            prefix: "/heartbeat"
+      route:
+        - destination:
+            host: heartbeat
+            port:
+              number: 8080
