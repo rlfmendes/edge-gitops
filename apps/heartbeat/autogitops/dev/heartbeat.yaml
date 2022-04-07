@@ -51,22 +51,22 @@ spec:
   selector:
     app: {{gitops.name}}
 
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: {{gitops.name}}-https
-  namespace: default
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`{{gitops.config.domain}}`) && PathPrefix(`/heartbeat/`)
-      kind: Rule
-      services:
-        - name: {{gitops.name}}
-          namespace: {{gitops.namespace}}
-          kind: Service
-          port: 8080
-  tls:
-    secretName: ssl-cert
+#---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: {{gitops.name}}-https
+#   namespace: default
+# spec:
+#   entryPoints:
+#     - websecure
+#   routes:
+#     - match: Host(`{{gitops.config.domain}}`) && PathPrefix(`/heartbeat/`)
+#       kind: Rule
+#       services:
+#         - name: {{gitops.name}}
+#           namespace: {{gitops.namespace}}
+#           kind: Service
+#           port: 8080
+#   tls:
+#     secretName: ssl-cert
