@@ -27,6 +27,6 @@ jobs:
         --name ago \
         --rm \
         -v $(pwd):/ago \
+        ghcr.io/bartr/autogitops:beta \
         -r retaildevcrews/edge-gitops \
-        -b pilot \
-        ghcr.io/bartr/autogitops:beta
+        -b pilot
