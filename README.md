@@ -119,34 +119,45 @@ flt check ai-order-accuracy
 
 ## Create and deploy a new app
 
-- Early version - still brittle - follow the instructions exactly and it "should" work
+- Early version - still a few bugs
 
 ```bash
 
 # start in the apps directory
 cd /workspaces/edge-gitops/apps
-
-# make sure git is up to date
 git pull
+
+# make sure git is "clean"
+#  commit / push as needed
+git status
 
 # create a new dotnet WebAPI app
 # you can use any app name as long as it is PascalCaseAlpha
 # if you use a different app name, you will have to make the docker image public (bug)
-# you have to be an owner of github/retaildevcrews to do this
+#   you have to be an owner of github/retaildevcrews to do this
 #   or change ci-cd / autogitops.json to point to a ghcr that you control
-# if any of that is confusing, use TestApp
+# if in doubt, use TestApp
 flt new dotnet webapi TestApp
 
 # change to the testapp directory
 cd testapp
 
-# set the target to west region
+```
+
+## Deploy to the fleet
+
+> Start in apps/testapp dir
+
+```bash
+
+# set the target to west region and deploy via GitOps
 flt targets clear
 flt targets add west
 flt targets deploy
 
-# check for the new namespace
 # wait for ci-cd to finish
+
+# check for the new namespace
 flt sync
 flt exec "k get ns testapp"
 
@@ -161,9 +172,13 @@ flt sync
 # it will take a few seconds for the ns to be deleted
 flt exec "k get ns" | grep testapp
 
-# inner-loop
+```
 
-#### start in apps/testapp dir
+## inner-loop
+
+> Start in apps/testapp dir
+
+```bash
 
 # build test app
 kic app build
@@ -181,9 +196,17 @@ kic check all
 kic test integration
 kic test load
 
+```
+
+## Clean up
+
+```bash
+
+# start in the apps directory
+cd /workspaces/edge-gitops/apps
+
 # remove test app
 git pull
-cd ..
 rm -rf testapp
 git commit -am "removed testapp"
 git push
