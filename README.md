@@ -148,7 +148,7 @@ flt targets deploy
 # check for the new namespace
 # wait for ci-cd to finish
 flt sync
-flt exec "k get ns" | grep testapp
+flt exec "k get ns testapp"
 
 # undeploy testapp
 git pull
