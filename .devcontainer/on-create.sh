@@ -89,9 +89,9 @@ kic completion zsh > "$HOME/.oh-my-zsh/completions/_kic"
 flt completion zsh > "$HOME/.oh-my-zsh/completions/_flt"
 
 echo "creating k3d cluster"
-cd ../inner-loop || exit
-kic cluster rebuild
-cd "$REPO_BASE" || exit
+# cd ../inner-loop || exit
+# kic cluster rebuild
+# cd "$REPO_BASE" || exit
 
 echo "on-create complete"
 echo "$(date +'%Y-%m-%d %H:%M:%S')    on-create complete" >> "$HOME/status"
