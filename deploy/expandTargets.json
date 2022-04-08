@@ -1,6 +1,5 @@
 {
-  "test-tx-atx": [ "test-tx-atx-101", "test-tx-atx-102", "test-tx-atx-103" ],
-  "central": [ "test-tx-atx", "bartr-central" ],
+  "central": [ "bartr-central" ],
   "east": [ "bartr-east" ],
   "west": [ "bartr-west" ]
 }
