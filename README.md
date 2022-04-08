@@ -139,39 +139,25 @@ flt new dotnet webapi TestApp
 
 # change to the testapp directory
 cd testapp
+git add .
+git commit -am "added testapp"
 
 # set the target to west region
 flt targets clear
 flt targets add west
-
-# run GitOps manually so we don't have to add testapp to the repo
-# normally, "apps" would be in separate repos - this is just a convenient test method
-# you can add + commit testapp to github and run:
-#   flt targets deploy
-cd ../..
-docker run --rm -v $(pwd):/ago ghcr.io/bartr/autogitops:beta --no-push
-
-# push GitOps changes to git
-# we don't add apps/testapp
-git add deploy
-git commit -m "Secure Build: testapp"
-git push
-cd $OLD_PWD
+flt targets deploy
 
 # check for the new namespace
+# wait for ci-cd to finish
 flt sync
 flt exec "k get ns" | grep testapp
 
 # undeploy testapp
 git pull
 flt targets clear
-cd ../..
-docker run --rm -v $(pwd):/ago ghcr.io/bartr/autogitops:beta --no-push
-git commit -am "Secure Build: testapp"
-git push
-cd $OLD_PWD
+flt targets deploy
 
-# force flux to sync
+# wait for ci-cd to finish
 flt sync
 
 # it will take a few seconds for the ns to be deleted
@@ -180,9 +166,6 @@ flt exec "k get ns" | grep testapp
 # inner-loop
 
 #### start in apps/testapp dir
-
-# use the custom CLI
-export PATH=$PWD/bin:$PATH
 
 # build test app
 kic app build
@@ -201,9 +184,11 @@ kic test integration
 kic test load
 
 # remove test app
-cd ../..
-rm -rf apps/testapp
 git pull
+cd ..
+rm -rf testapp
+git commit -am "removed testapp"
+git push
 
 # your repo should be "clean"
 
