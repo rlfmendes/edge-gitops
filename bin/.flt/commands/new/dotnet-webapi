@@ -41,7 +41,7 @@ then
     dotnet restore src
 
     mv bin/.kic .
-    #rm -rf bin
+    rm -rf bin
 
     git pull
     git add .
