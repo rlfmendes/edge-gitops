@@ -31,17 +31,14 @@ then
 
     mv src/csapp.csproj "src/$APP_LOWER.csproj"
 
-    sed -i "s/csapp/$APP_LOWER/g" bin/.kic/commands/app/build
-    sed -i "s/csapp/$APP_LOWER/g" bin/.kic/commands/app/deploy
-    sed -i "s/cd \"\$REPO_BASE\" || exit//g" bin/.kic/commands/app/build
+    sed -i "s/csapp/$APP_LOWER/g" .kic/commands/app/build
+    sed -i "s/csapp/$APP_LOWER/g" .kic/commands/app/deploy
+    sed -i "s/cd \"\$REPO_BASE\" || exit//g" .kic/commands/app/build
     sed -i "s~deploy/apps~apps~g" autogitops/autogitops.json
     sed -i "s/csapp/$APP_LOWER/g" Dockerfile
     find . -name '*.*' -type f -exec sed -i "s/CSApp/$APP_NAME/g" {} \;
     find . -name '*.*' -type f -exec sed -i "s/csapp/$APP_LOWER/g" {} \;
     dotnet restore src
-
-    mv bin/.kic .
-    rm -rf bin
 
     git pull
     git add .
