@@ -139,8 +139,6 @@ flt new dotnet webapi TestApp
 
 # change to the testapp directory
 cd testapp
-git add .
-git commit -am "added testapp"
 
 # set the target to west region
 flt targets clear
