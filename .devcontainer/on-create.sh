@@ -81,6 +81,9 @@ git clone https://github.com/retaildevcrews/vtlog
 git clone https://github.com/retaildevcrews/re-cli cli
 cd "$REPO_BASE" || exit
 
+# copy the cli so we can customize for the fleet
+cp -r ../cli/bin .
+
 # echo "generating kic completion"
 kic completion zsh > "$HOME/.oh-my-zsh/completions/_kic"
 flt completion zsh > "$HOME/.oh-my-zsh/completions/_flt"
