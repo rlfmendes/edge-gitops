@@ -25,7 +25,6 @@ then
     rm -rf .devcontainer
     rm -rf .git
     rm -rf .github
-    rm -rf bin
     rm -f .gitignore
     rm -f LICENSE
     rm -f curl.sh
@@ -40,6 +39,9 @@ then
     find . -name '*.*' -type f -exec sed -i "s/CSApp/$APP_NAME/g" {} \;
     find . -name '*.*' -type f -exec sed -i "s/csapp/$APP_LOWER/g" {} \;
     dotnet restore src
+
+    mv bin/.kic .
+    #rm -rf bin
 
     git pull
     git add .
