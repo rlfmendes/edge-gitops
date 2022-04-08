@@ -140,6 +140,7 @@ flt targets clear
 flt targets add west
 
 # run GitOps manually so we don't have to add testapp to the repo
+# normally, "apps" would be in separate repos - this is just a convenient test method
 cd ../..
 docker run --rm -v $(pwd):/ago ghcr.io/bartr/autogitops:beta --no-push
 
