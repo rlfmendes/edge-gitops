@@ -5,12 +5,9 @@
 echo "post-start start"
 echo "$(date +'%Y-%m-%d %H:%M:%S')    post-start start" >> "$HOME/status"
 
-<<<<<<< HEAD
-=======
 # update the cli
 git -C ../cli pull
 
->>>>>>> eb0eab631a1aba7dd0da256b37ba62a29197cbb6
 # update the base docker images
 docker pull mcr.microsoft.com/dotnet/sdk:5.0-alpine
 docker pull mcr.microsoft.com/dotnet/aspnet:5.0-alpine
