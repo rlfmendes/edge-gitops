@@ -9,6 +9,11 @@
   - You can use an existing PAT
   - <https://github.com/settings/tokens>
 
+- Grant SSO access to the token
+  - cse-labs
+  - retaildevcrews
+  - Any other tenant you choose
+
 - Create a personal Codespace secret
   - <https://github.com/settings/codespaces>
   - Name: PAT
@@ -48,18 +53,17 @@ Once Codespaces is running:
 flt list
 
 # check heartbeat on the fleet
+# you should get 17 bytes from each cluster
+# if not, please reach out to the platform team for support
 flt check heartbeat
 
 # update the fleet
 # (run twice if there are updates so you can see it's clean)
 flt pull
 
-# explore the flt CLI
-flt -h
-
 ```
 
-> Note that the create, delete, and groups commands will not work unless you're on the core platform team
+> Note that the create, delete, and groups commands will not work unless you have been granted additional access
 
 ## Deploy a new app
 
@@ -78,15 +82,44 @@ flt targets add central
 # deploy the changes
 flt targets deploy
 
+```
+
+## Check that your GitHub Action is running
+
+- <https://github.com/retaildevcrews/edge-gitops/actions>
+  - your action should be queued or in-progress
+
+## Action not running
+
+- If your action is not running within 10-15 seconds
+- Verify that your PAT has sufficient permissions
+
+  ```bash
+
+  # try pushing manually
+  git push
+
+  ```
+
+- Make sure your PAT has the correct permissions and is authorized for SSO in the orgs
+
+## Check deployment
+
+- Once the action completes successfully
+
+```bash
+
 # force flux to sync
-# note the github commit ID will change when ci-cd is complete
-# you may have to run multiple times
 flt sync
 
 # check that ai-order-accuracy is deployed to central
 flt check ai-order-accuracy
 
 ```
+
+## Create and deploy a new app
+
+- Coming soon
 
 ### Engineering Docs
 
