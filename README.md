@@ -9,6 +9,11 @@
   - You can use an existing PAT
   - <https://github.com/settings/tokens>
 
+- Grant SSO access to the token
+  - cse-labs
+  - retaildevcrews
+  - Any other tenant you choose
+
 - Create a personal Codespace secret
   - <https://github.com/settings/codespaces>
   - Name: PAT
@@ -48,18 +53,17 @@ Once Codespaces is running:
 flt list
 
 # check heartbeat on the fleet
+# you should get 17 bytes from each cluster
+# if not, please reach out to the platform team for support
 flt check heartbeat
 
 # update the fleet
 # (run twice if there are updates so you can see it's clean)
 flt pull
 
-# explore the flt CLI
-flt -h
-
 ```
 
-> Note that the create, delete, and groups commands will not work unless you're on the core platform team
+> Note that the create, delete, and groups commands will not work unless you have been granted additional access
 
 ## Deploy a new app
 
@@ -78,13 +82,130 @@ flt targets add central
 # deploy the changes
 flt targets deploy
 
+```
+
+## Check that your GitHub Action is running
+
+- <https://github.com/retaildevcrews/edge-gitops/actions>
+  - your action should be queued or in-progress
+
+## Action not running
+
+- If your action is not running within 10-15 seconds
+- Verify that your PAT has sufficient permissions
+
+  ```bash
+
+  # try pushing manually
+  git push
+
+  ```
+
+- Make sure your PAT has the correct permissions and is authorized for SSO in the orgs
+
+## Check deployment
+
+- Once the action completes successfully
+
+```bash
+
 # force flux to sync
-# note the github commit ID will change when ci-cd is complete
-# you may have to run multiple times
 flt sync
 
 # check that ai-order-accuracy is deployed to central
 flt check ai-order-accuracy
+
+```
+
+## Create and deploy a new app
+
+- Early version - still brittle - follow the instructions exactly and it "should" work
+
+```bash
+
+# start in the apps directory
+cd /workspaces/edge-gitops/apps
+
+# make sure git is up to date
+git pull
+
+# create a new dotnet WebAPI app
+# you can use any app name as long as it is PascalCaseAlpha
+# if you use a different app name, you will have to make the docker image public (bug)
+# you have to be an owner of github/retaildevcrews to do this
+#   or change ci-cd / autogitops.json to point to a ghcr that you control
+# if any of that is confusing, use TestApp
+flt new dotnet webapi TestApp
+
+# change to the testapp directory
+cd testapp
+
+# set the target to west region
+flt targets clear
+flt targets add west
+
+# run GitOps manually so we don't have to add testapp to the repo
+# normally, "apps" would be in separate repos - this is just a convenient test method
+# you can add + commit testapp to github and run:
+#   flt targets deploy
+cd ../..
+docker run --rm -v $(pwd):/ago ghcr.io/bartr/autogitops:beta --no-push
+
+# push GitOps changes to git
+# we don't add apps/testapp
+git add deploy
+git commit -m "Secure Build: testapp"
+git push
+cd $OLD_PWD
+
+# check for the new namespace
+flt sync
+flt exec "k get ns" | grep testapp
+
+# undeploy testapp
+git pull
+flt targets clear
+cd ../..
+docker run --rm -v $(pwd):/ago ghcr.io/bartr/autogitops:beta --no-push
+git commit -am "Secure Build: testapp"
+git push
+cd $OLD_PWD
+
+# force flux to sync
+flt sync
+
+# it will take a few seconds for the ns to be deleted
+flt exec "k get ns" | grep testapp
+
+# inner-loop
+
+#### start in apps/testapp dir
+
+# use the custom CLI
+export PATH=$PWD/bin:$PATH
+
+# build test app
+kic app build
+
+# rebuild cluster and deploy testapp + webv
+kic cluster rebuild
+
+# wait for pods to start
+kic pods
+
+# check pods
+kic check all
+
+# run tests
+kic test integration
+kic test load
+
+# remove test app
+cd ../..
+rm -rf apps/testapp
+git pull
+
+# your repo should be "clean"
 
 ```
 
