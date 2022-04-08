@@ -8,7 +8,7 @@ echo "$(date +'%Y-%m-%d %H:%M:%S')    on-create start" >> "$HOME/status"
 export REPO_BASE=$PWD
 export AKDC_REPO=retaildevcrews/edge-gitops
 
-export PATH="$PATH:$(dirname "$REPO_BASE")/cli/bin"
+export PATH="$REPO_BASE/bin:$PATH"
 export GOPATH="$HOME/go"
 
 mkdir -p "$HOME/.ssh"
@@ -24,7 +24,7 @@ mkdir -p "$HOME/.oh-my-zsh/completions"
     echo 'hsort() { read -r; printf "%s\\n" "$REPLY"; sort }'
 
     # add cli to path
-    echo "export PATH=\$PATH:$(dirname "$REPO_BASE")/cli/bin"
+    echo "export PATH=$REPO_BASE/bin:\$PATH"
     echo "export GOPATH=\$HOME/go"
 
     # create aliases
