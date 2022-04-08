@@ -26,6 +26,7 @@ then
     rm -rf .git
     rm -rf .github
     rm -rf bin
+    rm -f .gitignore
     rm -f LICENSE
     rm -f curl.sh
 
@@ -36,15 +37,9 @@ then
     sed -i "s/cd \"\$REPO_BASE\" || exit//g" bin/.kic/commands/app/build
     sed -i "s~deploy/apps~apps~g" autogitops/autogitops.json
     sed -i "s/csapp/$APP_LOWER/g" Dockerfile
-    sed -i "s/\$REPO_BASE\///g" bin/.kic/commands/test-integration
-    sed -i "s/\$REPO_BASE\///g" bin/.kic/commands/test-load
-    sed -i "s/\[Bb\]in\///g" .gitignore
     find . -name '*.*' -type f -exec sed -i "s/CSApp/$APP_NAME/g" {} \;
     find . -name '*.*' -type f -exec sed -i "s/csapp/$APP_LOWER/g" {} \;
     dotnet restore src
-
-    kic cluster delete
-    sudo rm /grafana/grafana.db
 
     git pull
     git add .
