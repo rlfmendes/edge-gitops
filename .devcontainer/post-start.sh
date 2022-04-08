@@ -5,7 +5,7 @@
 echo "post-start start"
 echo "$(date +'%Y-%m-%d %H:%M:%S')    post-start start" >> "$HOME/status"
 
-# update cli
+# update the cli
 git -C ../cli pull
 
 # update the base docker images
