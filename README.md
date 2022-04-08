@@ -169,7 +169,7 @@ flt exec "k get ns" | grep testapp
 kic app build
 
 # rebuild cluster and deploy testapp + webv
-kic cluster rebuild
+kic app deploy
 
 # wait for pods to start
 kic pods
