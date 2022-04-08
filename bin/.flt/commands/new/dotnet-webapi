@@ -18,16 +18,16 @@ then
         exit 1
     fi
 
+    git pull
     git clone https://github.com/retaildevcrews/dotnet-webapi-template "$APP_LOWER"
     cd "$APP_LOWER" || exit
 
     rm -rf .devcontainer
     rm -rf .git
     rm -rf .github
+    rm -rf bin
     rm -f LICENSE
     rm -f curl.sh
-
-    cp /workspaces/cli/bin/kic bin
 
     mv src/csapp.csproj "src/$APP_LOWER.csproj"
 
@@ -42,6 +42,13 @@ then
     find . -name '*.*' -type f -exec sed -i "s/CSApp/$APP_NAME/g" {} \;
     find . -name '*.*' -type f -exec sed -i "s/csapp/$APP_LOWER/g" {} \;
     dotnet restore src
+
+    kic cluster delete
+    sudo rm /grafana/grafana.db
+
+    git pull
+    git add .
+    git commit -m "added testapp"
 else
     echo "Invalid App Name $1"
 fi
