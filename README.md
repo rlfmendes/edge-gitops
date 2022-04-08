@@ -119,7 +119,7 @@ flt check ai-order-accuracy
 
 ## Create and deploy a new app
 
-- Coming soon
+- Early version - still brittle - follow the instructions exactly and it "should" work
 
 ```bash
 
@@ -130,6 +130,11 @@ cd /workspaces/edge-gitops/apps
 git pull
 
 # create a new dotnet WebAPI app
+# you can use any app name as long as it is PascalCaseAlpha
+# if you use a different app name, you will have to make the docker image public (bug)
+# you have to be an owner of github/retaildevcrews to do this
+#   or change ci-cd / autogitops.json to point to a ghcr that you control
+# if any of that is confusing, use TestApp
 flt new dotnet webapi TestApp
 
 # change to the testapp directory
@@ -141,6 +146,8 @@ flt targets add west
 
 # run GitOps manually so we don't have to add testapp to the repo
 # normally, "apps" would be in separate repos - this is just a convenient test method
+# you can add + commit testapp to github and run:
+#   flt targets deploy
 cd ../..
 docker run --rm -v $(pwd):/ago ghcr.io/bartr/autogitops:beta --no-push
 
@@ -149,6 +156,7 @@ docker run --rm -v $(pwd):/ago ghcr.io/bartr/autogitops:beta --no-push
 git add deploy
 git commit -m "Secure Build: testapp"
 git push
+cd $OLD_PWD
 
 # check for the new namespace
 flt sync
@@ -156,12 +164,12 @@ flt exec "k get ns" | grep testapp
 
 # undeploy testapp
 git pull
-cd apps/testapp
 flt targets clear
 cd ../..
 docker run --rm -v $(pwd):/ago ghcr.io/bartr/autogitops:beta --no-push
 git commit -am "Secure Build: testapp"
 git push
+cd $OLD_PWD
 
 # force flux to sync
 flt sync
@@ -171,7 +179,7 @@ flt exec "k get ns" | grep testapp
 
 # inner-loop
 
-cd apps/testapp
+#### start in apps/testapp dir
 
 # use the custom CLI
 export PATH=$PWD/bin:$PATH
@@ -195,6 +203,9 @@ kic test load
 # remove test app
 cd ../..
 rm -rf apps/testapp
+git pull
+
+# your repo should be "clean"
 
 ```
 
