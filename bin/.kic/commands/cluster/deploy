@@ -9,22 +9,27 @@
 # validate directories
 if [ ! -d ./deploy ]; then echo "./deploy directory not found. Please cd to an appropriate directory"; exit 1; fi
 if [ ! -d ./deploy/webv ]; then echo "./deploy/webv directory not found. Please cd to an appropriate directory"; exit 1; fi
-if [ ! -d ./deploy/imdb ]; then echo "./deploy/imdb directory not found. Please cd to an appropriate directory"; exit 1; fi
+if [ ! -d ./deploy/app ]; then echo "./deploy/app directory not found. Please cd to an appropriate directory"; exit 1; fi
 if [ ! -d ./deploy/bootstrap ]; then echo "./deploy/bootstrap directory not found. Please cd to an appropriate directory"; exit 1; fi
 
-# create namespace
+# build the app
+"$(dirname "${BASH_SOURCE[0]}")/../app/build"
+
+# create namespaces
 kubectl apply -f deploy
+kubectl apply -f deploy/bootstrap
 
-# deploy imdb reference app
-kubectl apply -f deploy/imdb
+# deploy app reference app
+kubectl apply -f deploy/app
 
-# deploy heartbeat, prometheus, grafana, and fluent bit
+# deploy prometheus, grafana, and fluent bit
 kubectl apply -f deploy/bootstrap
 kubectl apply -R -f deploy/bootstrap
 
+# deploy jumpbox
 "$(dirname "${BASH_SOURCE[0]}")/jumpbox"
 
 # deploy WebV after the app starts
-kubectl wait pod -l app=imdb -n imdb --for condition=ready --timeout=60s
+kubectl wait pod -l app=csapp -n csapp --for condition=ready --timeout=60s
 
 kubectl apply -f deploy/webv

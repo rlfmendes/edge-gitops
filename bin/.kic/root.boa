@@ -14,14 +14,14 @@ runCommand
 	path: svc
 
 command
-	name: build
-	short: Build local apps
+	name: app
+	short: Build and deploy your app
 
 runCommand
-	path: build/imdb
+	path: app/build
 
 runCommand
-	path: build/webv
+	path: app/deploy
 
 popCommand
 
@@ -33,13 +33,10 @@ runCommand
 	path: check/all
 
 runCommand
-	path: check/heartbeat
+	path: check/app
 
 runCommand
 	path: check/imdb
-
-runCommand
-	path: check/webv
 
 runCommand
 	path: check/grafana
