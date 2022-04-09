@@ -4,5 +4,5 @@
     "name": "vtlog",
     "namespace": "vtlog",
     "targetDir": "apps",
-    "targets": null
+    "targets": []
 }
