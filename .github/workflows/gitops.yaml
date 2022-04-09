@@ -6,7 +6,6 @@ on:
     paths:
     - '.github/workflows/gitops.yaml'
     - '**/autogitops/**'
-    - '**/expandTargets.json'
 
 jobs:
 
