@@ -65,7 +65,7 @@ flt pull
 
 > Note that the create, delete, and groups commands will not work unless you have been granted additional access
 
-## Deploy a new app
+## Deploy an app
 
 - AI Order Accuracy is the reference app that has been renamed
 
@@ -77,7 +77,7 @@ cd apps/ai-order-accuracy
 flt targets list
 
 # add the central region as a target
-flt targets add central
+flt targets add region:central
 
 # deploy the changes
 flt targets deploy
@@ -117,97 +117,9 @@ flt check ai-order-accuracy
 
 ```
 
-## Create and deploy a new app
+## Create and Deploy a New App
 
-- Early version - still brittle - follow the instructions exactly and it "should" work
-
-```bash
-
-# start in the apps directory
-cd /workspaces/edge-gitops/apps
-
-# make sure git is up to date
-git pull
-
-# create a new dotnet WebAPI app
-# you can use any app name as long as it is PascalCaseAlpha
-# if you use a different app name, you will have to make the docker image public (bug)
-# you have to be an owner of github/retaildevcrews to do this
-#   or change ci-cd / autogitops.json to point to a ghcr that you control
-# if any of that is confusing, use TestApp
-flt new dotnet webapi TestApp
-
-# change to the testapp directory
-cd testapp
-
-# set the target to west region
-flt targets clear
-flt targets add west
-
-# run GitOps manually so we don't have to add testapp to the repo
-# normally, "apps" would be in separate repos - this is just a convenient test method
-# you can add + commit testapp to github and run:
-#   flt targets deploy
-cd ../..
-docker run --rm -v $(pwd):/ago ghcr.io/bartr/autogitops:beta --no-push
-
-# push GitOps changes to git
-# we don't add apps/testapp
-git add deploy
-git commit -m "Secure Build: testapp"
-git push
-cd $OLD_PWD
-
-# check for the new namespace
-flt sync
-flt exec "k get ns" | grep testapp
-
-# undeploy testapp
-git pull
-flt targets clear
-cd ../..
-docker run --rm -v $(pwd):/ago ghcr.io/bartr/autogitops:beta --no-push
-git commit -am "Secure Build: testapp"
-git push
-cd $OLD_PWD
-
-# force flux to sync
-flt sync
-
-# it will take a few seconds for the ns to be deleted
-flt exec "k get ns" | grep testapp
-
-# inner-loop
-
-#### start in apps/testapp dir
-
-# use the custom CLI
-export PATH=$PWD/bin:$PATH
-
-# build test app
-kic app build
-
-# rebuild cluster and deploy testapp + webv
-kic cluster rebuild
-
-# wait for pods to start
-kic pods
-
-# check pods
-kic check all
-
-# run tests
-kic test integration
-kic test load
-
-# remove test app
-cd ../..
-rm -rf apps/testapp
-git pull
-
-# your repo should be "clean"
-
-```
+- Coming soon
 
 ### Engineering Docs
 
