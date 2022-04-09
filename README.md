@@ -65,7 +65,7 @@ flt pull
 
 > Note that the create, delete, and groups commands will not work unless you have been granted additional access
 
-## Deploy a new app
+## Deploy an app
 
 - AI Order Accuracy is the reference app that has been renamed
 
@@ -77,7 +77,7 @@ cd apps/ai-order-accuracy
 flt targets list
 
 # add the central region as a target
-flt targets add central
+flt targets add region:central
 
 # deploy the changes
 flt targets deploy
@@ -152,7 +152,7 @@ cd testapp
 
 # set the target to west region and deploy via GitOps
 flt targets clear
-flt targets add west
+flt targets add region:west
 flt targets deploy
 
 # wait for ci-cd to finish
@@ -170,7 +170,7 @@ flt targets deploy
 flt sync
 
 # it will take a few seconds for the ns to be deleted
-flt exec "k get ns" | grep testapp
+flt exec "k get ns testapp"
 
 ```
 
