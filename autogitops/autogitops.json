@@ -1,4 +1,3 @@
 {
-  "apps": [ "heartbeat" ,"ai-order-accuracy"],
   "appsDir": "apps"
 }

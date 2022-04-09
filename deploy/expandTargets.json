@@ -1,6 +1,0 @@
-  {
-  "all": [ "central", "east", "west" ],
-  "central": [ "central-il-chi-101", "central-il-chi-102" ],
-  "east": [ "east-ny-nyc-101", "east-ny-nyc-102" ],
-  "west": [ "west-or-pdx-101", "west-or-pdx-102" ]
-}
