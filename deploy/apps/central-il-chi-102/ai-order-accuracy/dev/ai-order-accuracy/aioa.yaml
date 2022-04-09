@@ -19,7 +19,7 @@ spec:
     metadata:
       labels:
         app: ai-order-accuracy
-        deploy: deploy-22-04-07-09-30-00
+        deploy: deploy-22-04-09-20-03-57
     spec:
       containers:
         - name: app

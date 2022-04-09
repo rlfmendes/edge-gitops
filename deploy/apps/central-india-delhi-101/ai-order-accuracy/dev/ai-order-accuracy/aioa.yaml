@@ -29,7 +29,7 @@ spec:
           - --in-memory
           - --prometheus
           - --zone
-          - central-il-chi
+          - central-india-delhi
           - --region
           - central
           ports:
@@ -67,7 +67,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`central-il-chi-101.cseretail.com`)
+    - match: Host(`central-india-delhi-101.cseretail.com`)
       kind: Rule
       services:
         - name: ai-order-accuracy
