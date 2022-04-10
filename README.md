@@ -52,7 +52,11 @@ Once Codespaces is running:
 - Once your fleet is created, the Platform Team will provide the branch name
 - Do all of your work in this branch
 - Do not PR your branch to main
-- Checkout your branch
+- Do not use other branches
+  - These branches are used for customer demos
+  - Some CLI commands can change behavior
+
+Checkout your branch
 
   ```bash
 
@@ -66,7 +70,7 @@ Once Codespaces is running:
 
 ## Check your Fleet
 
-> flt is the fleet CLI provided by the Platform Team
+> flt is the fleet CLI provided by Retail Edge / Pilot-in-a-Box
 
 ```bash
 
@@ -90,12 +94,17 @@ flt pull
 
 - IMDb is the reference app
 
+### If you get a 403 error from `flt targets deploy`, your PAT isn't setup correctly
+
 ```bash
 
 cd apps/imdb
 
 # check deploy targets (should be [])
 flt targets list
+
+# clear the targets if not []
+flt targets clear
 
 # add the central region as a target
 flt targets add region:central
@@ -115,14 +124,14 @@ flt targets deploy
 - If your action is not running within 10-15 seconds
 - Verify that your PAT has sufficient permissions
 
+### Make sure your PAT has the correct permissions and is authorized for SSO in the orgs
+
   ```bash
 
   # try pushing manually
   git push
 
   ```
-
-- Make sure your PAT has the correct permissions and is authorized for SSO in the orgs
 
 ## Check deployment
 
@@ -147,6 +156,12 @@ flt check app imdb
 - Retail Edge provides logs, metrics, and dashboards out of the box
 - The setup is currently "semi-automated"
   - Send a request to the Platform Team to setup your observability stack
+- More instructions coming soon
+
+## Customizing the CLI
+
+- `flt` and `kic` can be customized / extended
+  - often without changing the Go code
 - More instructions coming soon
 
 ## How to file issues and get help
