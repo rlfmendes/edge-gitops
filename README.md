@@ -180,7 +180,7 @@ flt targets deploy
 
 # check for the new namespace
 flt sync
-flt exec "k get ns testapp"
+flt check app testapp
 
 # undeploy testapp
 git pull
@@ -191,7 +191,7 @@ flt targets deploy
 flt sync
 
 # it will take a few seconds for the ns to be deleted
-flt exec "k get ns testapp"
+flt check app testapp
 
 ```
 
@@ -200,6 +200,8 @@ flt exec "k get ns testapp"
 > Start in apps/testapp dir
 
 ```bash
+
+git pull
 
 # build test app
 kic app build
