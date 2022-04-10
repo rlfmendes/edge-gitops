@@ -140,7 +140,101 @@ flt check app imdb
 
 ## Create and Deploy a New App
 
-- Coming soon
+- Early version - still a few bugs
+
+```bash
+
+# start in the apps directory
+cd /workspaces/edge-gitops/apps
+git pull
+
+# make sure git is "clean"
+#  commit / push as needed
+git status
+
+# create a new dotnet WebAPI app
+# you can use any app name as long as it is PascalCaseAlpha
+# if you use a different app name, you will have to make the docker image public (bug)
+#   you have to be an owner of github/retaildevcrews to do this
+#   or change ci-cd / autogitops.json to point to a ghcr that you control
+# if in doubt, use TestApp
+flt new dotnet webapi TestApp
+
+# change to the testapp directory
+cd testapp
+
+```
+
+## Deploy to the fleet
+
+> Start in apps/testapp dir
+
+```bash
+
+# set the target to west region and deploy via GitOps
+flt targets clear
+flt targets add region:west
+flt targets deploy
+
+# wait for ci-cd to finish
+
+# check for the new namespace
+flt sync
+flt exec "k get ns testapp"
+
+# undeploy testapp
+git pull
+flt targets clear
+flt targets deploy
+
+# wait for ci-cd to finish
+flt sync
+
+# it will take a few seconds for the ns to be deleted
+flt exec "k get ns testapp"
+
+```
+
+## inner-loop
+
+> Start in apps/testapp dir
+
+```bash
+
+# build test app
+kic app build
+
+# rebuild cluster and deploy testapp + webv
+kic app deploy
+
+# wait for pods to start
+kic pods
+
+# check pods
+kic check all
+
+# run tests
+kic test integration
+kic test load
+
+```
+
+## Clean up
+
+```bash
+
+# start in the apps directory
+cd /workspaces/edge-gitops/apps
+
+# remove test app
+git pull
+rm -rf testapp
+git commit -am "removed testapp"
+git push
+
+# your repo should be "clean"
+
+```
 
 ## Observability
 
