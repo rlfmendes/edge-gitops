@@ -7,9 +7,9 @@ command
 	short: Check cluster status
 
 fltCommand
-	path: check-aioa
-	name: ai-order-accuracy
-	short: Check AI Order Accuracy status on each cluster
+	path: check-app
+	name: app
+	short: Check app status on each cluster
 
 fltCommand
 	path: check-flux
