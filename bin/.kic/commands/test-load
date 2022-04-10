@@ -10,4 +10,4 @@
 # you can call directly if you validate all of the WebV parameters
 #   or let WebV handle the errors
 
-webv --server http://localhost:30080 --files webv/benchmark.json -d
+docker run --net host --rm ghcr.io/cse-labs/webv-red:beta --server http://localhost:30080 "$@"
