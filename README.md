@@ -140,7 +140,9 @@ flt check app imdb
 
 ## Create and Deploy a New App
 
-- Early version - still a few bugs
+- Create a TestApp from the dotnet WebAPI template
+  - Deploy and test in inner-loop
+  - Deploy and test on the fleet
 
 ```bash
 
@@ -157,7 +159,7 @@ git status
 # if you use a different app name, you will have to make the docker image public (bug)
 #   you have to be an owner of github/retaildevcrews to do this
 #   or change ci-cd / autogitops.json to point to a ghcr that you control
-# if in doubt, use TestApp
+# if in doubt, use TestApp or MyApp
 flt new dotnet webapi TestApp
 
 # change to the testapp directory
