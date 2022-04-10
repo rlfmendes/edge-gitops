@@ -7,10 +7,6 @@ root
 	short: Retail Edge CLI
 	long: Retail Edge CLI\n\n  A CLI for automating many Kubernetes fleet tasks
 
-# add az login with service principal
-runCommand
-	path: az-login
-
 fltCommand
 	path: curl
 	name: curl
