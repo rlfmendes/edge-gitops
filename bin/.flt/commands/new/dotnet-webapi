@@ -26,6 +26,7 @@ then
     rm -rf .git
     rm -rf .github
     rm -f .gitignore
+    rm -rf bin
     rm -f LICENSE
     rm -f curl.sh
 
