@@ -7,6 +7,11 @@ root
 	short: Retail Edge CLI
 	long: Retail Edge CLI\n\n  A CLI for automating many Kubernetes fleet tasks
 
+fltCommand
+	path: curl
+	name: curl
+	short: curl the specified endpoint on each cluster
+
 command
 	name: new
 	short: Create a new application
