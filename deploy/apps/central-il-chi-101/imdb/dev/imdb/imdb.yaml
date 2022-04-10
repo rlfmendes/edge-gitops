@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: imdb
+  namespace: imdb
+  labels:
+    app.kubernetes.io/name: imdb
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+       maxSurge: 1
+       maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: imdb
+  template:
+    metadata:
+      labels:
+        app: imdb
+        deploy: deploy-22-04-10-22-32-49
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/cse-labs/imdb-app:latest
+          imagePullPolicy: Always
+          args:
+          - --in-memory
+          - --prometheus
+          - --zone
+          - central-il-chi
+          - --region
+          - central
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: imdb
+  namespace: imdb
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: imdb
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: imdb-https
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`central-il-chi-101.cseretail.com`)
+      kind: Rule
+      services:
+        - name: imdb
+          namespace: imdb
+          kind: Service
+          port: 8080
+  tls:
+    secretName: ssl-cert
