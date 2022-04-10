@@ -10,6 +10,11 @@ root
 runCommand
 	path: az-login
 
+fltCommand
+	path: curl
+	name: curl
+	short: curl the specified endpoint on each cluster
+
 command
 	name: new
 	short: Create a new application

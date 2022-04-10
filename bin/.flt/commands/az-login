@@ -3,4 +3,4 @@
 #name: az-login
 #short: Login to Azure using the project's Service Principal
 
-az login --service-principal --username eeecee2d-6872-4cca-91df-1d9a94168d70 --tenant 12d1a0e5-9d0a-4b24-9810-5d718de78502 --password rtwbPCRo.YNGGGlL.66ra7IiI7jjr2.nBa
+az login --service-principal --username $AKDC_SP_ID --tenant $AKDC_TENANT --password $AKDC_SP_KEY
