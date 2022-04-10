@@ -5,6 +5,6 @@
     "namespace": "ai-order-accuracy",
     "targetDir": "apps",
     "targets": [
-        "central"
+        "region:central"
     ]
 }

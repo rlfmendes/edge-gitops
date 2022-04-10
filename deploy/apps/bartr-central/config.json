@@ -1,9 +1,8 @@
 {
 	"environment": "dev",
-	"region": "bartr",
+	"region": "central",
 	"zone": "bartr-central",
 	"district": "bartr-central",
 	"store": "bartr-central",
 	"domain": "bartr-central.cseretail.com"
 }
-
