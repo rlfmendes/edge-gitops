@@ -1,4 +1,3 @@
 {
-  "apps": [ "ai-order-accuracy", "badapp", "heartbeat", "testapp", "vtlog" ],
   "appsDir": "apps"
 }
