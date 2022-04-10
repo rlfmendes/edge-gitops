@@ -8,7 +8,7 @@ echo "$(date +'%Y-%m-%d %H:%M:%S')    on-create start" >> "$HOME/status"
 export REPO_BASE=$PWD
 export AKDC_REPO=retaildevcrews/edge-gitops
 
-export PATH="$REPO_BASE/bin:$PATH"
+export PATH="$PATH:$(dirname "$REPO_BASE")/cli/bin"
 export GOPATH="$HOME/go"
 
 mkdir -p "$HOME/.ssh"
@@ -24,7 +24,7 @@ mkdir -p "$HOME/.oh-my-zsh/completions"
     echo 'hsort() { read -r; printf "%s\\n" "$REPLY"; sort }'
 
     # add cli to path
-    echo "export PATH=$REPO_BASE/bin:\$PATH"
+    echo "export PATH=\$PATH:$(dirname "$REPO_BASE")/cli/bin"
     echo "export GOPATH=\$HOME/go"
 
     # create aliases
@@ -81,15 +81,14 @@ git clone https://github.com/retaildevcrews/vtlog
 git clone https://github.com/retaildevcrews/re-cli cli
 cd "$REPO_BASE" || exit
 
-# copy the cli so we can customize for the fleet
-cp -r ../cli/bin .
-
 # echo "generating kic completion"
 kic completion zsh > "$HOME/.oh-my-zsh/completions/_kic"
 flt completion zsh > "$HOME/.oh-my-zsh/completions/_flt"
 
 echo "creating k3d cluster"
-kic cluster create
+cd ../inner-loop || exit
+kic cluster rebuild
+cd "$REPO_BASE" || exit
 
 echo "on-create complete"
 echo "$(date +'%Y-%m-%d %H:%M:%S')    on-create complete" >> "$HOME/status"
