@@ -1,12 +1,26 @@
-# AutoGitOps Testing Repo
+# Retail Edge Onboarding Repo
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+## Onboarding
+
+- Request a test fleet from the Platform Team (contact bartr)
+- Follow the [instructions](https://github.com/cse-labs/moss) and join the `Microsoft`, `cse-labs` and `retaildevcrews` GitHub orgs
+  - Validation repos
+    - If you get a 403 or 404 error make sure you joined the orgs
+    - <https://github.com/cse-labs/private-test>
+    - <https://github.com/retaildevcrews/private-test>
+- Go through the Kubernetes in Codespaces inner-loop hands-on lab
+  - Repeat until you are comfortable with Codespaces, Kubernetes, Prometheus, Fluent Bit, Grafana, K9s, and our inner-loop process (everything builds on this)
+- Go through the GitOps Automation [Quick Start](https://github.com/bartr/autogitops)
+
+## Setup your GitHub PAT
 
 > We use multiple GitHub Repos, so you have to use a PAT
 
 - Create a Personal Access Token (PAT) in your GitHub account
   - Grant repo and package access
-  - You can use an existing PAT
+  - You can use an existing PAT as long as it has permissions
   - <https://github.com/settings/tokens>
 
 - Grant SSO access to the token
@@ -17,25 +31,32 @@
 - Create a personal Codespace secret
   - <https://github.com/settings/codespaces>
   - Name: PAT
-  - Value: the PAT you just created
+  - Value: your PAT
   - Grant access to this repo and any other repos you want
 
 ## Create a Codespace
+
+> Create your Codespace from the main branch
 
 - Click on `Code` then click `New Codespace`
 
 Once Codespaces is running:
 
 > Make sure your terminal is running zsh - bash is not supported and will not work
+>
+> If it's running bash, exit and create a new terminal (this is a random bug in Codespaces)
 
 ## Test Fleet
 
-- Request the Platform Team to create your test fleet
-- They will provide the branch name
+- Request a test fleet from the Platform Team (contact bartr, anflinch or kevinshah)
+- Once your fleet is created, the Platform Team will provide the branch name
+- Do all of your work in this branch
+- Do not PR your branch to main
 - Checkout your branch
 
   ```bash
 
+  # you should already be in this directory
   cd /workspaces/edge-gitops
   git pull
   git checkout yourBranchName
@@ -45,7 +66,7 @@ Once Codespaces is running:
 
 ## Check your Fleet
 
-> flt is the fleet CLI provided by the platform team
+> flt is the fleet CLI provided by the Platform Team
 
 ```bash
 
@@ -54,7 +75,7 @@ flt list
 
 # check heartbeat on the fleet
 # you should get 17 bytes from each cluster
-# if not, please reach out to the platform team for support
+# if not, please reach out to the Platform Team for support
 flt check heartbeat
 
 # update the fleet
@@ -65,13 +86,13 @@ flt pull
 
 > Note that the create, delete, and groups commands will not work unless you have been granted additional access
 
-## Deploy an app
+## Deploy the Reference App
 
-- AI Order Accuracy is the reference app that has been renamed
+- IMDb is the reference app
 
 ```bash
 
-cd apps/ai-order-accuracy
+cd apps/imdb
 
 # check deploy targets (should be [])
 flt targets list
@@ -112,8 +133,8 @@ flt targets deploy
 # force flux to sync
 flt sync
 
-# check that ai-order-accuracy is deployed to central
-flt check ai-order-accuracy
+# check that imdb is deployed to central
+flt check app imdb
 
 ```
 
@@ -121,17 +142,24 @@ flt check ai-order-accuracy
 
 - Coming soon
 
-### Engineering Docs
+## Observability
 
-- Team Working [Agreement](.github/WorkingAgreement.md)
-- Team [Engineering Practices](.github/EngineeringPractices.md)
-- CSE Engineering Fundamentals [Playbook](https://github.com/Microsoft/code-with-engineering-playbook)
+- Retail Edge provides logs, metrics, and dashboards out of the box
+- The setup is currently "semi-automated"
+  - Send a request to the Platform Team to setup your observability stack
+- More instructions coming soon
 
 ## How to file issues and get help
 
 This project uses GitHub Issues to track bugs and feature requests. Please search the existing issues before filing new issues to avoid duplicates. For new issues, file your bug or feature request as a new issue.
 
 For help and questions about using this project, please open a GitHub issue.
+
+### Engineering Docs
+
+- Team Working [Agreement](.github/WorkingAgreement.md)
+- Team [Engineering Practices](.github/EngineeringPractices.md)
+- CSE Engineering Fundamentals [Playbook](https://github.com/Microsoft/code-with-engineering-playbook)
 
 ## Contributing
 
