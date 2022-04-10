@@ -56,7 +56,7 @@ Once Codespaces is running:
   - These branches are used for customer demos
   - Some CLI commands can change behavior
 
-Checkout your branch
+### Checkout your branch
 
   ```bash
 
@@ -149,20 +149,142 @@ flt check app imdb
 
 ## Create and Deploy a New App
 
-- Coming soon
+- Create a TestApp from the dotnet WebAPI template
+  - Deploy and test in inner-loop
+  - Deploy and test on the fleet
+
+```bash
+
+# start in the apps directory
+cd /workspaces/edge-gitops/apps
+git pull
+
+# make sure git is "clean"
+#  commit / push as needed
+git status
+
+# create a new dotnet WebAPI app
+# you can use any app name as long as it is PascalCaseAlpha
+# if you use a different app name, you will have to make the docker image public (bug)
+#   you have to be an owner of github/retaildevcrews to do this
+#   or change ci-cd / autogitops.json to point to a ghcr that you control
+# if in doubt, use TestApp or MyApp
+flt new dotnet webapi TestApp
+
+# change to the testapp directory
+cd testapp
+
+```
+
+## Deploy to the fleet
+
+> Start in apps/testapp dir
+
+```bash
+
+# set the target to west region and deploy via GitOps
+flt targets clear
+flt targets add region:west
+flt targets deploy
+
+# wait for ci-cd to finish
+
+# check for the new namespace
+flt sync
+flt check app testapp
+
+# undeploy testapp
+git pull
+flt targets clear
+flt targets deploy
+
+# wait for ci-cd to finish
+flt sync
+
+# it will take a few seconds for the ns to be deleted
+flt check app testapp
+
+```
+
+## inner-loop
+
+> Start in apps/testapp dir
+
+- Remove apps if necessary
+
+  ```bash
+
+  # check the pods
+  kic pods
+
+  # if any pods are running app, monitoring, or logging recreate the cluster
+  kic cluster create
+
+  ```
+
+- Build and deploy TestApp
+
+> Start in apps/testapp dir
+
+  ```bash
+
+  git pull
+
+  # build test app
+  kic app build
+
+  # rebuild cluster and deploy testapp + webv
+  kic app deploy
+
+  # wait for pods to start
+  kic pods
+
+  # check the app
+  kic check app
+
+  # check all
+  kic check all
+
+  # run tests
+  kic test load &
+  kic test integration
+
+  ```
+
+## Clean up
+
+```bash
+
+# start in the apps directory
+cd /workspaces/edge-gitops/apps
+
+# remove test app
+git pull
+rm -rf testapp
+git commit -am "removed testapp"
+git push
+
+# your repo should be "clean"
+
+# re-create the cluster
+kic cluster create
+
+```
 
 ## Observability
+
+> More instructions coming soon
 
 - Retail Edge provides logs, metrics, and dashboards out of the box
 - The setup is currently "semi-automated"
   - Send a request to the Platform Team to setup your observability stack
-- More instructions coming soon
 
 ## Customizing the CLI
 
+> More instructions coming soon
+
 - `flt` and `kic` can be customized / extended
   - often without changing the Go code
-- More instructions coming soon
 
 ## How to file issues and get help
 
