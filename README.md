@@ -199,27 +199,41 @@ flt check app testapp
 
 > Start in apps/testapp dir
 
-```bash
+- Remove apps if necessary
 
-git pull
+  ```bash
 
-# build test app
-kic app build
+  # check the pods
+  kic pods
 
-# rebuild cluster and deploy testapp + webv
-kic app deploy
+  # if any pods are running app, monitoring, or logging recreate the cluster
+  kic cluster create
 
-# wait for pods to start
-kic pods
+  ```
 
-# check pods
-kic check all
+- Build and deploy TestApp
 
-# run tests
-kic test integration
-kic test load
+  ```bash
 
-```
+  git pull
+
+  # build test app
+  kic app build
+
+  # rebuild cluster and deploy testapp + webv
+  kic app deploy
+
+  # wait for pods to start
+  kic pods
+
+  # check pods
+  kic check all
+
+  # run tests
+  kic test integration
+  kic test load
+
+  ```
 
 ## Clean up
 
@@ -240,10 +254,11 @@ git push
 
 ## Observability
 
+> More instructions coming soon
+
 - Retail Edge provides logs, metrics, and dashboards out of the box
 - The setup is currently "semi-automated"
   - Send a request to the Platform Team to setup your observability stack
-- More instructions coming soon
 
 ## How to file issues and get help
 
