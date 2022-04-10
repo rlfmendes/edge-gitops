@@ -1,12 +1,26 @@
-# AutoGitOps Testing Repo
+# Retail Edge Onboarding Repo
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+## Onboarding
+
+- Request a test fleet from the Platform Team (contact bartr)
+- Follow the [instructions](https://github.com/cse-labs/moss) and join the `Microsoft`, `cse-labs` and `retaildevcrews` GitHub orgs
+  - Validation repos
+    - If you get a 403 or 404 error make sure you joined the orgs
+    - <https://github.com/cse-labs/private-test>
+    - <https://github.com/retaildevcrews/private-test>
+- Go through the Kubernetes in Codespaces inner-loop hands-on lab
+  - Repeat until you are comfortable with Codespaces, Kubernetes, Prometheus, Fluent Bit, Grafana, K9s, and our inner-loop process (everything builds on this)
+- Go through the GitOps Automation [Quick Start](https://github.com/bartr/autogitops)
+
+## Setup your GitHub PAT
 
 > We use multiple GitHub Repos, so you have to use a PAT
 
 - Create a Personal Access Token (PAT) in your GitHub account
   - Grant repo and package access
-  - You can use an existing PAT
+  - You can use an existing PAT as long as it has permissions
   - <https://github.com/settings/tokens>
 
 - Grant SSO access to the token
@@ -17,25 +31,36 @@
 - Create a personal Codespace secret
   - <https://github.com/settings/codespaces>
   - Name: PAT
-  - Value: the PAT you just created
+  - Value: your PAT
   - Grant access to this repo and any other repos you want
 
 ## Create a Codespace
+
+> Create your Codespace from the main branch
 
 - Click on `Code` then click `New Codespace`
 
 Once Codespaces is running:
 
 > Make sure your terminal is running zsh - bash is not supported and will not work
+>
+> If it's running bash, exit and create a new terminal (this is a random bug in Codespaces)
 
 ## Test Fleet
 
-- Request the Platform Team to create your test fleet
-- They will provide the branch name
-- Checkout your branch
+- Request a test fleet from the Platform Team (contact bartr, anflinch or kevinshah)
+- Once your fleet is created, the Platform Team will provide the branch name
+- Do all of your work in this branch
+- Do not PR your branch to main
+- Do not use other branches
+  - These branches are used for customer demos
+  - Some CLI commands can change behavior
+
+### Checkout your branch
 
   ```bash
 
+  # you should already be in this directory
   cd /workspaces/edge-gitops
   git pull
   git checkout yourBranchName
@@ -45,7 +70,7 @@ Once Codespaces is running:
 
 ## Check your Fleet
 
-> flt is the fleet CLI provided by the platform team
+> flt is the fleet CLI provided by Retail Edge / Pilot-in-a-Box
 
 ```bash
 
@@ -54,7 +79,7 @@ flt list
 
 # check heartbeat on the fleet
 # you should get 17 bytes from each cluster
-# if not, please reach out to the platform team for support
+# if not, please reach out to the Platform Team for support
 flt check heartbeat
 
 # update the fleet
@@ -65,16 +90,21 @@ flt pull
 
 > Note that the create, delete, and groups commands will not work unless you have been granted additional access
 
-## Deploy an app
+## Deploy the Reference App
 
-- AI Order Accuracy is the reference app that has been renamed
+- IMDb is the reference app
+
+### If you get a 403 error from `flt targets deploy`, your PAT isn't setup correctly
 
 ```bash
 
-cd apps/ai-order-accuracy
+cd apps/imdb
 
 # check deploy targets (should be [])
 flt targets list
+
+# clear the targets if not []
+flt targets clear
 
 # add the central region as a target
 flt targets add region:central
@@ -94,14 +124,14 @@ flt targets deploy
 - If your action is not running within 10-15 seconds
 - Verify that your PAT has sufficient permissions
 
+### Make sure your PAT has the correct permissions and is authorized for SSO in the orgs
+
   ```bash
 
   # try pushing manually
   git push
 
   ```
-
-- Make sure your PAT has the correct permissions and is authorized for SSO in the orgs
 
 ## Check deployment
 
@@ -112,26 +142,161 @@ flt targets deploy
 # force flux to sync
 flt sync
 
-# check that ai-order-accuracy is deployed to central
-flt check ai-order-accuracy
+# check that imdb is deployed to central
+flt check app imdb
 
 ```
 
 ## Create and Deploy a New App
 
-- Coming soon
+- Create a TestApp from the dotnet WebAPI template
+  - Deploy and test in inner-loop
+  - Deploy and test on the fleet
 
-### Engineering Docs
+```bash
 
-- Team Working [Agreement](.github/WorkingAgreement.md)
-- Team [Engineering Practices](.github/EngineeringPractices.md)
-- CSE Engineering Fundamentals [Playbook](https://github.com/Microsoft/code-with-engineering-playbook)
+# start in the apps directory
+cd /workspaces/edge-gitops/apps
+git pull
+
+# make sure git is "clean"
+#  commit / push as needed
+git status
+
+# create a new dotnet WebAPI app
+# you can use any app name as long as it is PascalCaseAlpha
+# if you use a different app name, you will have to make the docker image public (bug)
+#   you have to be an owner of github/retaildevcrews to do this
+#   or change ci-cd / autogitops.json to point to a ghcr that you control
+# if in doubt, use TestApp or MyApp
+flt new dotnet webapi TestApp
+
+# change to the testapp directory
+cd testapp
+
+```
+
+## Deploy to the fleet
+
+> Start in apps/testapp dir
+
+```bash
+
+# set the target to west region and deploy via GitOps
+flt targets clear
+flt targets add region:west
+flt targets deploy
+
+# wait for ci-cd to finish
+
+# check for the new namespace
+flt sync
+flt check app testapp
+
+# undeploy testapp
+git pull
+flt targets clear
+flt targets deploy
+
+# wait for ci-cd to finish
+flt sync
+
+# it will take a few seconds for the ns to be deleted
+flt check app testapp
+
+```
+
+## inner-loop
+
+> Start in apps/testapp dir
+
+- Remove apps if necessary
+
+  ```bash
+
+  # check the pods
+  kic pods
+
+  # if any pods are running app, monitoring, or logging recreate the cluster
+  kic cluster create
+
+  ```
+
+- Build and deploy TestApp
+
+> Start in apps/testapp dir
+
+  ```bash
+
+  git pull
+
+  # build test app
+  kic app build
+
+  # rebuild cluster and deploy testapp + webv
+  kic app deploy
+
+  # wait for pods to start
+  kic pods
+
+  # check the app
+  kic check app
+
+  # check all
+  kic check all
+
+  # run tests
+  kic test load &
+  kic test integration
+
+  ```
+
+## Clean up
+
+```bash
+
+# start in the apps directory
+cd /workspaces/edge-gitops/apps
+
+# remove test app
+git pull
+rm -rf testapp
+git commit -am "removed testapp"
+git push
+
+# your repo should be "clean"
+
+# re-create the cluster
+kic cluster create
+
+```
+
+## Observability
+
+> More instructions coming soon
+
+- Retail Edge provides logs, metrics, and dashboards out of the box
+- The setup is currently "semi-automated"
+  - Send a request to the Platform Team to setup your observability stack
+
+## Customizing the CLI
+
+> More instructions coming soon
+
+- `flt` and `kic` can be customized / extended
+  - often without changing the Go code
 
 ## How to file issues and get help
 
 This project uses GitHub Issues to track bugs and feature requests. Please search the existing issues before filing new issues to avoid duplicates. For new issues, file your bug or feature request as a new issue.
 
 For help and questions about using this project, please open a GitHub issue.
+
+### Engineering Docs
+
+- Team Working [Agreement](.github/WorkingAgreement.md)
+- Team [Engineering Practices](.github/EngineeringPractices.md)
+- CSE Engineering Fundamentals [Playbook](https://github.com/Microsoft/code-with-engineering-playbook)
 
 ## Contributing
 
