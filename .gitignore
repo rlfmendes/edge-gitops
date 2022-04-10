@@ -1,2 +1,3 @@
 ## ignore fleet/bin/*
-fleet/bin/**
+bin/kic
+bin/flt
