@@ -213,6 +213,8 @@ flt check app testapp
 
 - Build and deploy TestApp
 
+> Start in apps/testapp dir
+
   ```bash
 
   git pull
@@ -226,12 +228,15 @@ flt check app testapp
   # wait for pods to start
   kic pods
 
-  # check pods
+  # check the app
+  kic check app
+
+  # check all
   kic check all
 
   # run tests
+  kic test load &
   kic test integration
-  kic test load
 
   ```
 
@@ -249,6 +254,9 @@ git commit -am "removed testapp"
 git push
 
 # your repo should be "clean"
+
+# re-create the cluster
+kic cluster create
 
 ```
 
