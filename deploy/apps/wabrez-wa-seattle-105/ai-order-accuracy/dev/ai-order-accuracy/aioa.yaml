@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-order-accuracy
+  namespace: ai-order-accuracy
+  labels:
+    app.kubernetes.io/name: ai-order-accuracy
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+       maxSurge: 1
+       maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: ai-order-accuracy
+  template:
+    metadata:
+      labels:
+        app: ai-order-accuracy
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/cse-labs/imdb-app:latest
+          imagePullPolicy: Always
+          args:
+          - --in-memory
+          - --zone
+          - wabrez-wa-seattle
+          - --region
+          - wabrez
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-order-accuracy
+  namespace: ai-order-accuracy
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: ai-order-accuracy
+
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: ai-order-accuracy-gateway
+  namespace: ai-order-accuracy
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "wabrez-wa-seattle-105.cseretail.com"
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - "wabrez-wa-seattle-105.cseretail.com"
+      tls:
+        mode: SIMPLE
+        credentialName: ssl-cert
+
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ai-order-accuracy-vs
+  namespace: ai-order-accuracy
+spec:
+  hosts:
+    - "wabrez-wa-seattle-105.cseretail.com"
+  gateways:
+    - ai-order-accuracy-gateway
+  http:
+    - match:
+        - uri:
+            prefix: "/"
+      route:
+        - destination:
+            host: ai-order-accuracy
+            port:
+              number: 8080
