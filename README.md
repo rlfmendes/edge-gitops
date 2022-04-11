@@ -2,6 +2,10 @@
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
+## Platform Team Contacts
+
+- anflinch  bartr  kevinshah
+
 ## Onboarding
 
 - Request a test fleet from the Platform Team (contact bartr)
