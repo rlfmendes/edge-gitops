@@ -27,9 +27,9 @@ spec:
           args: 
           - --in-memory
           - --zone
-          - east-tn-nashville
+          - central-ar-lr
           - --region
-          - east
+          - central
           ports:
             - name: http
               containerPort: 8080
@@ -65,7 +65,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`east-tn-nashville-101.cseretail.com`)
+    - match: Host(`central-ar-lr-101.cseretail.com`)
       kind: Rule
       services:
         - name: imdb
