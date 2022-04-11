@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+spec:
+  type: NodePort
+  selector:
+    app: munishwebapi
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080
+
+metadata:
+  namespace: munishwebapi
+  labels:
+    app: munishwebapi
+  name: munishwebapi
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: munishwebapi-https
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`central-india-delhi-101.cseretail.com`)
+      kind: Rule
+      services:
+        - name: munishwebapi
+          namespace: munishwebapi
+          kind: Service
+          port: 8080
+  tls:
+    secretName: ssl-cert
