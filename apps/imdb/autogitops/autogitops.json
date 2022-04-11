@@ -7,6 +7,6 @@
     "targets": [
         "region:central",
         "west-or-pdx-102",
-        "district:ny"
+        "district:east-ny-nyc"
     ]
 }
