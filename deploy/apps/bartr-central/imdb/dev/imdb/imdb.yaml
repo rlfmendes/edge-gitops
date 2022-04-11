@@ -27,9 +27,9 @@ spec:
           args: 
           - --in-memory
           - --zone
-          - bartr-east
+          - bartr-central
           - --region
-          - east
+          - central
           ports:
             - name: http
               containerPort: 8080
@@ -65,7 +65,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`bartr-east.cseretail.com`)
+    - match: Host(`bartr-central.cseretail.com`)
       kind: Rule
       services:
         - name: imdb
