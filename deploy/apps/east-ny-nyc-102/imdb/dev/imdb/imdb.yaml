@@ -29,9 +29,9 @@ spec:
           - --in-memory
           - --prometheus
           - --zone
-          - west-or-pdx
+          - east-ny-nyc
           - --region
-          - west
+          - east
           ports:
             - name: http
               containerPort: 8080
@@ -67,7 +67,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`west-or-pdx-102.cseretail.com`)
+    - match: Host(`east-ny-nyc-102.cseretail.com`)
       kind: Rule
       services:
         - name: imdb
