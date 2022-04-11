@@ -13,8 +13,5 @@
     "port": 8080,
     "readinessProbe": "/readyz",
     "targetDir": "apps",
-    "targets": [
-        "west",
-        "region:west"
-    ]
+    "targets": null
 }
